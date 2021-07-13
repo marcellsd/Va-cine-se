@@ -58,8 +58,8 @@ public class UserService {
 	
 	public Optional<User> update( Long id, User newUser) {
         return repository.findById(id)
-                .map(oldItem -> {
-                	User updated = oldItem.updateWith(newUser);
+                .map(oldUser-> {
+                	User updated = oldUser.updateWith(newUser);
                    return repository.save(updated);
                 });
     }

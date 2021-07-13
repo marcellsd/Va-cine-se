@@ -17,4 +17,8 @@ public class District {
 	public String getName() {
 		return this.name;
 	}
+	
+	public District updateWith(District district) {
+		return new District(district.getId(), district.getName());
+	}
 }
