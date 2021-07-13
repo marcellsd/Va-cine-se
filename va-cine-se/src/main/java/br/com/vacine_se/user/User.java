@@ -8,7 +8,7 @@ public class User {
 	private final Long id;
     private final String name;
     private final int age;
-    private final int districtId;
+    private final Long districtId;
     private final boolean comorbidity;
     private final String cpf;
     private final LocalDate dateScheduled;
@@ -18,7 +18,7 @@ public class User {
     private final String phoneNumber;
     private final Long schedulingId;
     
-	public User(Long id, String name, int age, int districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
+	public User(Long id, String name, int age, Long districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
 			String userName, String password, String email, String phoneNumber, Long schedulingId) {
 		this.id = id;
 		this.name = name;
@@ -46,7 +46,7 @@ public class User {
 		return age;
 	}
 
-	public int getDistrictId() {
+	public Long getDistrictId() {
 		return districtId;
 	}
 

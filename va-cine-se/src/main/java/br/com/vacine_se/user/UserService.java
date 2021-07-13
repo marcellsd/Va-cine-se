@@ -23,8 +23,8 @@ public class UserService {
 	
 	private static List<User> defaultUsers(){
 		return List.of(
-				new User(1L, "Joao", 2, 30, false, "000.000.000-01", LocalDate.now(), "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1L),
-				new User(2L, "Maria", 1, 31, true, "000.000.000-02", LocalDate.now(), "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2L)
+				new User(1L, "Joao", 30 , 2L, false, "000.000.000-01", LocalDate.now(), "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1L),
+				new User(2L, "Maria", 31, 1L, true, "000.000.000-02", LocalDate.now(), "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2L)
 				);
 	}
 
@@ -42,8 +42,8 @@ public class UserService {
 		User copy = new User(
 				user.getId(),
 				user.getName(),
-				user.getDistrictId(),
 				user.getAge(),
+				user.getDistrictId(),
 				user.isComorbidity(),
 				user.getCpf(),
 				user.getDateScheduled(),
