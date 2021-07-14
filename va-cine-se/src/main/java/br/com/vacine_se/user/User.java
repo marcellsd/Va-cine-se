@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 
 public class User {
-	private final Long id;
+	private Long id;
     private final String name;
     private final int age;
     private final Long districtId;
@@ -33,10 +33,29 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.schedulingId = schedulingId;
 	}
+
+	public User(User user) {
+		this.id = user.id;
+		this.name = user.name;
+		this.age = user.age;
+		this.districtId = user.districtId;
+		this.comorbidity = user.comorbidity;
+		this.cpf = user.cpf;
+		this.dateScheduled = user.dateScheduled;
+		this.userName = user.userName;
+		this.password = user.password;
+		this.email = user.email;
+		this.phoneNumber = user.phoneNumber;
+		this.schedulingId = user.schedulingId;
+	}
 	
 	@Id
 	public Long getId() {
 		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
