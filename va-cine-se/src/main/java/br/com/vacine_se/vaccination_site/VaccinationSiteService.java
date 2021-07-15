@@ -42,6 +42,11 @@ public class VaccinationSiteService {
 		return repository.save(copy);
 	}
 	
+	public VaccinationSite update( String id, VaccinationSite newVaccinationSite){
+		newVaccinationSite.setId(id);
+		return newVaccinationSite;
+	}
+	/*
 	public Optional<VaccinationSite> update( String id, VaccinationSite newVaccinationSite) {
         return repository.findById(id)
                 .map(oldVaccinationSite -> {
@@ -49,6 +54,7 @@ public class VaccinationSiteService {
                    return repository.save(updated);
                 });
     }
+	*/
 	
 	public void delete(String id) {
 		repository.deleteById(id);

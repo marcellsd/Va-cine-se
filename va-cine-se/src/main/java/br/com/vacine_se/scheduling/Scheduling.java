@@ -9,7 +9,7 @@ import br.com.vacine_se.utils.IdGenerator;
 
 public class Scheduling {
 	
-	private final String id;
+	private String id;
 	private final LocalDate date;
 	private final String vaccinationSiteId;
 	
@@ -24,7 +24,11 @@ public class Scheduling {
 	public String getId() {
 		return id;
 	}
-
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public LocalDate getDate() {
 		return date;
 	}

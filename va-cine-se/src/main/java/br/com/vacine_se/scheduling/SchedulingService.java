@@ -47,12 +47,14 @@ public class SchedulingService {
 		return repository.save(copy);
 	}
 	
-	public Optional<Scheduling> update(String id, Scheduling newScheduling) {
-        return repository.findById(id)
-                .map(oldScheduling-> {
-                	Scheduling updated = oldScheduling.updateWith(newScheduling);
-                   return repository.save(updated);
-                });
+	public Scheduling update(String id, Scheduling newScheduling) {
+		 newScheduling.setId(id);
+		 return repository.save(newScheduling);
+		//return repository.findById(id)
+                //.map(oldScheduling-> {
+                //	Scheduling updated = oldScheduling.updateWith(newScheduling);
+                //   return repository.save(updated);
+                //});
     }
 	
 	public void delete(String id) {

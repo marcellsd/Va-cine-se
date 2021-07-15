@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import br.com.vacine_se.utils.IdGenerator;
 
 public class VaccinationSite {
-	private final String id;
+	private String id;
 	private final String name;
 	private final Long districtId;
 	
@@ -17,7 +17,9 @@ public class VaccinationSite {
 	public String getId() {
 		return this.id;
 	}
-	
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getName() {
 		return this.name;
 	}

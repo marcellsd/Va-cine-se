@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import br.com.vacine_se.utils.IdGenerator;
 
 public class Notification {
-	private final String id;
+	private String id;
 	private final String userId;
 	private final String content;
 	
@@ -16,6 +16,9 @@ public class Notification {
     @Id
 	public String getId() {
 		return this.id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public String getContent() {

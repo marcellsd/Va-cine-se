@@ -45,7 +45,12 @@ public class AdminService {
 				);
 		return repository.save(copy);
 	}
+	public Admin update( String id, Admin newAdmin) {
+		newAdmin.setId(id);
+		return newAdmin;
+	}
 	
+	/*
 	public Optional<Admin> update( String id, Admin newAdmin) {
         return repository.findById(id)
                 .map(oldAdmin-> {
@@ -53,6 +58,7 @@ public class AdminService {
                    return repository.save(updated);
                 });
     }
+    */
 	public void delete(String id) {
 		repository.deleteById(id);
 	}

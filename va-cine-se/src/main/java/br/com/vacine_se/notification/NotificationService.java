@@ -42,6 +42,11 @@ public class NotificationService {
 		return repository.save(copy);
 	}
 	
+	public Notification update( String id, Notification newNotification) {
+        newNotification.setId(id);
+		return newNotification;
+	}
+	/*
 	public Optional<Notification> update( String id, Notification newNotification) {
         return repository.findById(id)
                 .map(oldNotification -> {
@@ -49,7 +54,7 @@ public class NotificationService {
                    return repository.save(updated);
                 });
     }
-	
+	*/
 	public void delete(String id) {
 		repository.deleteById(id);
 	}
