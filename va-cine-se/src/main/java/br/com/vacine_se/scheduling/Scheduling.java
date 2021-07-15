@@ -2,6 +2,8 @@ package br.com.vacine_se.scheduling;
 
 import java.time.LocalDate;
 
+import org.springframework.data.annotation.Id;
+
 
 public class Scheduling {
 	
@@ -16,6 +18,7 @@ public class Scheduling {
 		this.vaccinationSiteId = vaccinationSiteId;
 	}
 
+	@Id
 	public Long getId() {
 		return id;
 	}

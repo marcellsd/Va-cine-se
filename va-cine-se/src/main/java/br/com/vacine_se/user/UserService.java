@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableMapRepositories
 public class UserService {
-	private final CrudRepository<User,Long> repository;
+	private final CrudRepository<User, String> repository;
 
-	public UserService(CrudRepository<User, Long> repository) {
+	public UserService(CrudRepository<User, String> repository) {
 		this.repository = repository;
 		this.repository.saveAll(defaultUsers());
 	}
@@ -23,8 +23,8 @@ public class UserService {
 	
 	private static List<User> defaultUsers(){
 		return List.of(
-				new User(1L, "Joao", 30 , 2L, false, "000.000.000-01", LocalDate.now(), "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1L),
-				new User(2L, "Maria", 31, 1L, true, "000.000.000-02", LocalDate.now(), "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2L)
+				new User("Joao", 30 , 2L, false, "000.000.000-01", LocalDate.now(), "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1L),
+				new User("Maria", 31, 1L, true, "000.000.000-02", LocalDate.now(), "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2L)
 				);
 	}
 
@@ -34,13 +34,12 @@ public class UserService {
         users.forEach(list::add);
         return list;
     }
-	public Optional<User> find(Long id) {
+	public Optional<User> find(String id) {
 		return repository.findById(id);
 	}
 	
 	public User create(User user) {
 		User copy = new User(
-				user.getId(),
 				user.getName(),
 				user.getAge(),
 				user.getDistrictId(),
@@ -56,15 +55,17 @@ public class UserService {
 		return repository.save(copy);
 	}
 	
-	public Optional<User> update( Long id, User newUser) {
-        return repository.findById(id)
-                .map(oldUser-> {
-                	User updated = oldUser.updateWith(newUser);
-                   return repository.save(updated);
-                });
+	public User update(String id, User newUser) {
+		newUser.setId(id);
+		return repository.save(newUser);
+        // return repository.findById(id)
+        //         .map(oldUser-> {
+        //         	User updated = oldUser.updateWith(newUser);
+        //            return repository.save(updated);
+        //         });
     }
 	
-	public void delete(Long id) {
+	public void delete(String id) {
 		repository.deleteById(id);
 	}
 }

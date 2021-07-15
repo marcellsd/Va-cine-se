@@ -1,11 +1,12 @@
 package br.com.vacine_se.user;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
 public class User {
-	private Long id;
+	private String id;
     private final String name;
     private final int age;
     private final Long districtId;
@@ -18,9 +19,9 @@ public class User {
     private final String phoneNumber;
     private final Long schedulingId;
     
-	public User(Long id, String name, int age, Long districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
+	public User(String name, int age, Long districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
 			String userName, String password, String email, String phoneNumber, Long schedulingId) {
-		this.id = id;
+		this.id = this.hashId();
 		this.name = name;
 		this.age = age;
 		this.districtId = districtId;
@@ -34,27 +35,16 @@ public class User {
 		this.schedulingId = schedulingId;
 	}
 
-	public User(User user) {
-		this.id = user.id;
-		this.name = user.name;
-		this.age = user.age;
-		this.districtId = user.districtId;
-		this.comorbidity = user.comorbidity;
-		this.cpf = user.cpf;
-		this.dateScheduled = user.dateScheduled;
-		this.userName = user.userName;
-		this.password = user.password;
-		this.email = user.email;
-		this.phoneNumber = user.phoneNumber;
-		this.schedulingId = user.schedulingId;
+	private String hashId() {
+		return UUID.randomUUID().toString();
 	}
-	
+
 	@Id
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -104,18 +94,18 @@ public class User {
 	
     public User updateWith(User user) {
         return new User(
-           this.id,
-           user.name,
-           user.age,
-           user.districtId,
-           user.comorbidity,
-           user.cpf,
-           user.dateScheduled,
-           user.userName,
-           user.password,
-           user.email,
-           user.phoneNumber,
-           user.schedulingId
+			// this.id,
+           	user.name,
+           	user.age,
+           	user.districtId,
+           	user.comorbidity,
+           	user.cpf,
+           	user.dateScheduled,
+           	user.userName,
+           	user.password,
+           	user.email,
+           	user.phoneNumber,
+           	user.schedulingId
         );
     }
     

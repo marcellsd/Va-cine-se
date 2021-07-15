@@ -10,39 +10,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    private final InMemoryUserRepository repository;
+    private final UserService service;
     
-    UserController(InMemoryUserRepository repository) {
-        this.repository = repository;
+    UserController(UserService service) {
+        this.service = service;
     }
 
     @GetMapping("/users")
     Iterable<User> all() {
-        return repository.findAll();
+        return service.findAll();
     }
 
     @GetMapping("/users/{id}")
-    User one(@PathVariable Long id) {
-        return repository.findById(id).orElseThrow();
+    User one(@PathVariable String id) {
+        return service.find(id).orElseThrow();
     }
 
     @PostMapping("/users")
     User newUser(@RequestBody User user) {
-        // TODO: resolver problema com ids não geradas automaticamente
-        Long id = repository.count() + 1;
-        user.setId(id);
-        return repository.save(user);
+        return service.create(user);
     }
 
     @PutMapping("/users/{id}")
-    User updateUser(@RequestBody User user, @PathVariable Long id) {
-        user.setId(id);
-        return repository.save(user);
+    User updateUser(@RequestBody User user, @PathVariable String id) {
+        return service.update(id, user);
     }
 
     @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable Long id) {
-        repository.deleteById(id);
+    void deleteUser(@PathVariable String id) {
+        service.delete(id);
     }
     
     
