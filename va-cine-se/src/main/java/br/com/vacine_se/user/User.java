@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
+import br.com.vacine_se.utils.IdGenerator;
+
 public class User {
 	private String id;
     private final String name;
@@ -21,7 +23,7 @@ public class User {
     
 	public User(String name, int age, Long districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
 			String userName, String password, String email, String phoneNumber, Long schedulingId) {
-		this.id = this.hashId();
+		this.id = IdGenerator.getHash();
 		this.name = name;
 		this.age = age;
 		this.districtId = districtId;
