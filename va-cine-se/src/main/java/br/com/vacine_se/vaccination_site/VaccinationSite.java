@@ -1,18 +1,20 @@
 package br.com.vacine_se.vaccination_site;
 import org.springframework.data.annotation.Id;
 
+import br.com.vacine_se.utils.IdGenerator;
+
 public class VaccinationSite {
-	private final Long id;
+	private final String id;
 	private final String name;
 	private final Long districtId;
 	
-	public VaccinationSite(Long id, String name, Long districtId){
-		this.id = id;
+	public VaccinationSite(String name, Long districtId){
+		this.id = IdGenerator.getHash();
 		this.name = name;
 		this.districtId = districtId;
 	}
     @Id
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 	
@@ -25,6 +27,6 @@ public class VaccinationSite {
 	}
 	
 	public VaccinationSite updateWith(VaccinationSite district) {
-		return new VaccinationSite(this.id, district.getName(), district.getDistrictId());
+		return new VaccinationSite(district.getName(), district.getDistrictId());
 	}
 }

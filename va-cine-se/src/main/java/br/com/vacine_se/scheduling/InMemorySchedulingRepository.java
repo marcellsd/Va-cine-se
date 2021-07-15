@@ -4,4 +4,4 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InMemorySchedulingRepository extends CrudRepository<Scheduling, Long>{}
+public interface InMemorySchedulingRepository extends CrudRepository<Scheduling, String>{}

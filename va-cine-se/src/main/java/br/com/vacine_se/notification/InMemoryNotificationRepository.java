@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface InMemoryNotificationRepository extends CrudRepository<Notification, Long>{}
+public interface InMemoryNotificationRepository extends CrudRepository<Notification, String>{}
 

@@ -1,7 +1,6 @@
 package br.com.vacine_se.user;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
@@ -35,10 +34,6 @@ public class User {
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.schedulingId = schedulingId;
-	}
-
-	private String hashId() {
-		return UUID.randomUUID().toString();
 	}
 
 	@Id

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableMapRepositories
 public class AdminService {
-	private final CrudRepository<Admin,Long> repository;
+	private final CrudRepository<Admin, String> repository;
 
-	public AdminService(CrudRepository<Admin, Long> repository) {
+	public AdminService(CrudRepository<Admin, String> repository) {
 		this.repository = repository;
 		this.repository.saveAll(defaultAdmins());
 	}
@@ -21,8 +21,8 @@ public class AdminService {
 	
 	private static List<Admin> defaultAdmins(){
 		return List.of(
-				new Admin(1L, "Jose", "jose89", "j1989", "jose89@gmail.com"),
-				new Admin(2L, "Lourdes","lourdes40", "m1941", "lourdes41@gmail.com")
+				new Admin("Jose", "jose89", "j1989", "jose89@gmail.com"),
+				new Admin("Lourdes","lourdes40", "m1941", "lourdes41@gmail.com")
 				);
 	}
 
@@ -32,13 +32,12 @@ public class AdminService {
         admins.forEach(list::add);
         return list;
     }
-	public Optional<Admin> find(Long id) {
+	public Optional<Admin> find(String id) {
 		return repository.findById(id);
 	}
 	
 	public Admin create(Admin admin) {
 		Admin copy = new Admin(
-				admin.getId(),
 				admin.getName(),
 				admin.getUserName(),
 				admin.getPassword(),
@@ -47,14 +46,14 @@ public class AdminService {
 		return repository.save(copy);
 	}
 	
-	public Optional<Admin> update( Long id, Admin newAdmin) {
+	public Optional<Admin> update( String id, Admin newAdmin) {
         return repository.findById(id)
                 .map(oldAdmin-> {
                 	Admin updated = oldAdmin.updateWith(newAdmin);
                    return repository.save(updated);
                 });
     }
-	public void delete(Long id) {
+	public void delete(String id) {
 		repository.deleteById(id);
 	}
 }

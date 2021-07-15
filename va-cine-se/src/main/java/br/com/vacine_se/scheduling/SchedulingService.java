@@ -13,20 +13,21 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableMapRepositories
 public class SchedulingService {
-	private final CrudRepository<Scheduling,Long> repository;
+	private final CrudRepository<Scheduling, String> repository;
 
-	public SchedulingService(CrudRepository<Scheduling, Long> repository) {
+	public SchedulingService(CrudRepository<Scheduling, String> repository) {
 		this.repository = repository;
-		this.repository.saveAll(defaultSchedulings());
+		// this.repository.saveAll(defaultSchedulings());
 	}
 
 	
-	private static List<Scheduling> defaultSchedulings(){
-		return List.of(
-				new Scheduling(1L, LocalDate.now(), 1L),
-				new Scheduling(2L, LocalDate.now(), 2L)
-				);
-	}
+	// TODO: adicionar vacinationsite service para buscar os IDs
+	// private static List<Scheduling> defaultSchedulings(){
+	// 	return List.of(
+	// 			new Scheduling(LocalDate.now(), 1L),
+	// 			new Scheduling(LocalDate.now(), 2L)
+	// 			);
+	// }
 
     public List<Scheduling> findAll() {
         List<Scheduling> list = new ArrayList<>();
@@ -34,20 +35,19 @@ public class SchedulingService {
         schedulings.forEach(list::add);
         return list;
     }
-	public Optional<Scheduling> find(Long id) {
+	public Optional<Scheduling> find(String id) {
 		return repository.findById(id);
 	}
 	
 	public Scheduling create(Scheduling scheduling) {
 		Scheduling copy = new Scheduling(
-				scheduling.getId(),
 				scheduling.getDate(),
 				scheduling.getVaccinationSiteId()
 				);
 		return repository.save(copy);
 	}
 	
-	public Optional<Scheduling> update( Long id, Scheduling newScheduling) {
+	public Optional<Scheduling> update(String id, Scheduling newScheduling) {
         return repository.findById(id)
                 .map(oldScheduling-> {
                 	Scheduling updated = oldScheduling.updateWith(newScheduling);
@@ -55,7 +55,7 @@ public class SchedulingService {
                 });
     }
 	
-	public void delete(Long id) {
+	public void delete(String id) {
 		repository.deleteById(id);
 	}
 }

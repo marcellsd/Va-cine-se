@@ -20,6 +20,7 @@ public class DistrictService {
 	}
 	
 	
+	// TODO: Adicionar todos os bairros
 	private static List<District> getDistrictFromData(){
 		return List.of(
 				new District(1L, "Neópolis"),
@@ -35,23 +36,6 @@ public class DistrictService {
     }
 	public Optional<District> find(Long id) {
 		return repository.findById(id);
-	}
-	
-	public District create(District district) {
-		District copy = new District(district.getId(), district.getName());
-		return repository.save(copy);
-	}
-	
-	public Optional<District> update( Long id, District newDistrict) {
-        return repository.findById(id)
-                .map(oldDistrict -> {
-                	District updated = oldDistrict.updateWith(newDistrict);
-                   return repository.save(updated);
-                });
-    }
-	
-	public void delete(Long id) {
-		repository.deleteById(id);
 	}
 }
 

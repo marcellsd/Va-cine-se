@@ -1,18 +1,20 @@
 package br.com.vacine_se.notification;
 import org.springframework.data.annotation.Id;
 
+import br.com.vacine_se.utils.IdGenerator;
+
 public class Notification {
-	private final Long id;
-	private final Long userId;
+	private final String id;
+	private final String userId;
 	private final String content;
 	
-	public Notification(Long id, Long districtId, String content){
-		this.id = id;
-		this.userId = districtId;
+	public Notification(String userId, String content){
+		this.id = IdGenerator.getHash();
+		this.userId = userId;
 		this.content = content;
 	}
     @Id
-	public Long getId() {
+	public String getId() {
 		return this.id;
 	}
 	
@@ -20,11 +22,11 @@ public class Notification {
 		return this.content;
 	}
 	
-	public Long getUserId() {
+	public String getUserId() {
 		return this.userId;
 	}
 	
 	public Notification updateWith(Notification district) {
-		return new Notification(this.id, district.getUserId(), district.getContent());
+		return new Notification(district.getUserId(), district.getContent());
 	}
 }

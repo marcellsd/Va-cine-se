@@ -2,17 +2,19 @@ package br.com.vacine_se.admin;
 
 import org.springframework.data.annotation.Id;
 
+import br.com.vacine_se.utils.IdGenerator;
+
 public class Admin {
-	private final Long id;
+	private String id;
     private final String name;
     private final String userName;
     private final String password;
     private final String email;
     
     
-	public Admin(Long id, String name, String userName, 
+	public Admin(String name, String userName, 
 			String password, String email) {
-		this.id = id;
+		this.id = IdGenerator.getHash();
 		this.name = name;
 		this.userName = userName;
 		this.password = password;
@@ -20,7 +22,7 @@ public class Admin {
 	}
 	
 	@Id
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -39,13 +41,9 @@ public class Admin {
 	public String getEmail() {
 		return email;
 	}
-
-
-	
 	
     public Admin updateWith(Admin user) {
         return new Admin(
-           this.id,
            user.name,
            user.userName,
            user.password,

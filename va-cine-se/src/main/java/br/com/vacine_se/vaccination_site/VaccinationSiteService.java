@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableMapRepositories
 public class VaccinationSiteService {
-	private final CrudRepository<VaccinationSite, Long> repository;
+	private final CrudRepository<VaccinationSite, String> repository;
 	
-	public VaccinationSiteService(CrudRepository<VaccinationSite, Long> repository) {
+	public VaccinationSiteService(CrudRepository<VaccinationSite, String> repository) {
 		this.repository = repository;
 		this.repository.saveAll(getVaccinationSiteFromData());
 	}
@@ -22,8 +22,8 @@ public class VaccinationSiteService {
 	
 	private static List<VaccinationSite> getVaccinationSiteFromData(){
 		return List.of(
-				new VaccinationSite(1L, "UPA-Neópolis", 1L),
-				new VaccinationSite(2L, "UPA-Candelária", 2L)
+				new VaccinationSite("UPA-Neópolis", 1L),
+				new VaccinationSite("UPA-Candelária", 2L)
 				);
 	}
 	
@@ -33,16 +33,16 @@ public class VaccinationSiteService {
         vaccinationSites.forEach(list::add);
         return list;
     }
-	public Optional<VaccinationSite> find(Long id) {
+	public Optional<VaccinationSite> find(String id) {
 		return repository.findById(id);
 	}
 	
 	public VaccinationSite create(VaccinationSite vaccinationSite) {
-		VaccinationSite copy = new VaccinationSite(vaccinationSite.getId(), vaccinationSite.getName(), vaccinationSite.getDistrictId());
+		VaccinationSite copy = new VaccinationSite(vaccinationSite.getName(), vaccinationSite.getDistrictId());
 		return repository.save(copy);
 	}
 	
-	public Optional<VaccinationSite> update( Long id, VaccinationSite newVaccinationSite) {
+	public Optional<VaccinationSite> update( String id, VaccinationSite newVaccinationSite) {
         return repository.findById(id)
                 .map(oldVaccinationSite -> {
                 	VaccinationSite updated = oldVaccinationSite.updateWith(newVaccinationSite);
@@ -50,7 +50,7 @@ public class VaccinationSiteService {
                 });
     }
 	
-	public void delete(Long id) {
+	public void delete(String id) {
 		repository.deleteById(id);
 	}
 }
