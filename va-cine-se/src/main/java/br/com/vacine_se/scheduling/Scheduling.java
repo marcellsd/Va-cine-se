@@ -2,6 +2,8 @@ package br.com.vacine_se.scheduling;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 
 import br.com.vacine_se.utils.IdGenerator;
@@ -10,7 +12,9 @@ import br.com.vacine_se.utils.IdGenerator;
 public class Scheduling {
 	
 	private String id;
+	@NotNull(message = "must be a vaccination date")
 	private final LocalDate date;
+	@NotNull(message = "must be a Vaccination Site ID")
 	private final String vaccinationSiteId;
 	
 	public Scheduling(LocalDate date, String vaccinationSiteId) {

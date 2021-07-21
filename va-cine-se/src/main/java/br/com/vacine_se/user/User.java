@@ -2,21 +2,43 @@ package br.com.vacine_se.user;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
 
 import br.com.vacine_se.utils.IdGenerator;
 
 public class User {
 	private String id;
+	@NotNull(message = "name required")
+	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
     private final String name;
+	@NotNull(message = "age is required")
+    @Positive(message = "age must be positive")
     private final int age;
+	@NotNull(message = "districtId is required")
+    @Positive(message = "districtId must be positive")
     private final Long districtId;
+	@NotNull(message = "comorbidity status is required")
     private final boolean comorbidity;
+	@NotNull(message = "cpf is required")
+	@CPF(message = "must be a valid cpf format")
     private final String cpf;
     private final LocalDate dateScheduled;
+    @NotNull(message = "username is required")
+	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "username must be letters and/or numbers")
     private final String userName;
+    @NotNull(message = "password is required")
     private final String password;
+    @NotNull(message = "email is required")
+    @Email(message = "must be a valid email format")
     private final String email;
+    @NotNull(message = "Phone number is required")
+   	@Pattern(regexp = "^[0-9 ]+$", message = "username must be numbers")
     private final String phoneNumber;
     private final Long schedulingId;
     
@@ -44,7 +66,7 @@ public class User {
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}

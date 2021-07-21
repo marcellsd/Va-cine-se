@@ -1,6 +1,17 @@
 package br.com.vacine_se.admin;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,12 +38,12 @@ public class AdminController {
     }
 
     @PostMapping("/admins")
-    Admin newAdmin(@RequestBody Admin admin) {
+    Admin newAdmin(@Valid @RequestBody Admin admin) {
         return service.create(admin);
     }
 
     @PutMapping("/admins/{id}")
-    Admin updateAdmin(@RequestBody Admin admin, @PathVariable String id) {
+    Admin updateAdmin(@Valid @RequestBody Admin admin, @PathVariable String id) {
         return service.update(id, admin);
     }
 
@@ -41,5 +52,16 @@ public class AdminController {
         service.delete(id);
     }
     
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+        Map<String, String> map = new HashMap<>(errors.size());
+        errors.forEach((error) -> {
+            String key = ((FieldError) error).getField();
+            String val = error.getDefaultMessage();
+            map.put(key, val);
+        });
+        return ResponseEntity.badRequest().body(map);
+    }
     
 }
