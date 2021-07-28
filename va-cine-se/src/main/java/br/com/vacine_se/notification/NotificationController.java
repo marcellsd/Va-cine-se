@@ -33,7 +33,7 @@ public class NotificationController {
     }
 
     @GetMapping("/notifications/{id}")
-    Notification one(@PathVariable String id) {
+    Notification one(@PathVariable int id) {
         return service.find(id).orElseThrow();
     }
 
@@ -43,12 +43,12 @@ public class NotificationController {
     }
 
     @PutMapping("/notifications/{id}")
-    Notification updateNotification(@Valid @RequestBody Notification notification, @PathVariable String id) {
+    Notification updateNotification(@Valid @RequestBody Notification notification, @PathVariable int id) {
         return service.update(id, notification);
     }
 
     @DeleteMapping("/notifications/{id}")
-    void deleteNotification(@PathVariable String id) {
+    void deleteNotification(@PathVariable int id) {
         service.delete(id);
     }
     
