@@ -3,25 +3,22 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 
-import br.com.vacine_se.utils.IdGenerator;
-
 public class Notification {
-	private String id;
+	private int id;
 	@NotNull(message = "must be a user ID")
-	private final String userId;
+	private final int userId;
 	@NotNull(message = "must be a notification content")
 	private final String content;
 	
-	public Notification(String userId, String content){
-		this.id = IdGenerator.getHash();
+	public Notification(int userId, String content){
 		this.userId = userId;
 		this.content = content;
 	}
     @Id
-	public String getId() {
+	public int getId() {
 		return this.id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -29,11 +26,7 @@ public class Notification {
 		return this.content;
 	}
 	
-	public String getUserId() {
+	public int getUserId() {
 		return this.userId;
-	}
-	
-	public Notification updateWith(Notification district) {
-		return new Notification(district.getUserId(), district.getContent());
 	}
 }
