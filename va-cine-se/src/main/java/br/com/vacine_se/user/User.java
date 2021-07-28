@@ -10,41 +10,38 @@ import javax.validation.constraints.Positive;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
 
-import br.com.vacine_se.utils.IdGenerator;
-
 public class User {
-	private String id;
+	private int id;
 	@NotNull(message = "name required")
 	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
-    private final String name;
+    private String name;
 	@NotNull(message = "age is required")
     @Positive(message = "age must be positive")
-    private final int age;
+    private int age;
 	@NotNull(message = "districtId is required")
     @Positive(message = "districtId must be positive")
-    private final Long districtId;
+    private Long districtId;
 	@NotNull(message = "comorbidity status is required")
-    private final boolean comorbidity;
+    private boolean comorbidity;
 	@NotNull(message = "cpf is required")
 	@CPF(message = "must be a valid cpf format")
-    private final String cpf;
-    private final LocalDate dateScheduled;
+    private String cpf;
+    private LocalDate dateScheduled;
     @NotNull(message = "username is required")
 	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "username must be letters and/or numbers")
-    private final String userName;
+    private String userName;
     @NotNull(message = "password is required")
-    private final String password;
+    private String password;
     @NotNull(message = "email is required")
     @Email(message = "must be a valid email format")
-    private final String email;
+    private String email;
     @NotNull(message = "Phone number is required")
    	@Pattern(regexp = "^[0-9 ]+$", message = "username must be numbers")
-    private final String phoneNumber;
-    private final Long schedulingId;
+    private String phoneNumber;
+    private Long schedulingId;
     
 	public User(String name, int age, Long districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
 			String userName, String password, String email, String phoneNumber, Long schedulingId) {
-		this.id = IdGenerator.getHash();
 		this.name = name;
 		this.age = age;
 		this.districtId = districtId;
@@ -59,11 +56,11 @@ public class User {
 	}
 
 	@Id
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -111,21 +108,21 @@ public class User {
 	}
 	
 	
-    public User updateWith(User user) {
-        return new User(
-			// this.id,
-           	user.name,
-           	user.age,
-           	user.districtId,
-           	user.comorbidity,
-           	user.cpf,
-           	user.dateScheduled,
-           	user.userName,
-           	user.password,
-           	user.email,
-           	user.phoneNumber,
-           	user.schedulingId
-        );
-    }
+    // public User updateWith(User user) {
+    //     return new User(
+	// 		// this.id,
+    //        	user.name,
+    //        	user.age,
+    //        	user.districtId,
+    //        	user.comorbidity,
+    //        	user.cpf,
+    //        	user.dateScheduled,
+    //        	user.userName,
+    //        	user.password,
+    //        	user.email,
+    //        	user.phoneNumber,
+    //        	user.schedulingId
+    //     );
+    // }
     
 }
