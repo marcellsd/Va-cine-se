@@ -13,8 +13,7 @@ public class District {
 	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
 	private final String name;
 	
-	public District(int id, String name){
-		this.id = id;
+	public District(String name){
 		this.name = name;
 	}
     @Id
@@ -24,5 +23,9 @@ public class District {
 	
 	public String getName() {
 		return this.name;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
