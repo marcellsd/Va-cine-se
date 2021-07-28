@@ -106,23 +106,5 @@ public class User {
 	public Long getSchedulingId() {
 		return schedulingId;
 	}
-	
-	
-    // public User updateWith(User user) {
-    //     return new User(
-	// 		// this.id,
-    //        	user.name,
-    //        	user.age,
-    //        	user.districtId,
-    //        	user.comorbidity,
-    //        	user.cpf,
-    //        	user.dateScheduled,
-    //        	user.userName,
-    //        	user.password,
-    //        	user.email,
-    //        	user.phoneNumber,
-    //        	user.schedulingId
-    //     );
-    // }
-    
+   
 }
