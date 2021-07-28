@@ -5,10 +5,9 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.data.annotation.Id;
 
-import br.com.vacine_se.utils.IdGenerator;
 
 public class VaccinationSite {
-	private String id;
+	private int id;
 	@NotNull(message = "name required")
 	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
 	private final String name;
@@ -17,15 +16,14 @@ public class VaccinationSite {
 	private final Long districtId;
 	
 	public VaccinationSite(String name, Long districtId){
-		this.id = IdGenerator.getHash();
 		this.name = name;
 		this.districtId = districtId;
 	}
     @Id
-	public String getId() {
+	public int getId() {
 		return this.id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -34,9 +32,5 @@ public class VaccinationSite {
 	
 	public Long getDistrictId() {
 		return this.districtId;
-	}
-	
-	public VaccinationSite updateWith(VaccinationSite district) {
-		return new VaccinationSite(district.getName(), district.getDistrictId());
 	}
 }
