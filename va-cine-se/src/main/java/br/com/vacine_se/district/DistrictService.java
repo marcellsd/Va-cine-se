@@ -20,7 +20,6 @@ public class DistrictService {
 	}
 	
 	
-	// TODO: Adicionar todos os bairros
 	private static List<District> getDistrictFromData(){
 		return List.of(
 				new District(1L, "Alecrim",2 ,3),
@@ -38,27 +37,27 @@ public class DistrictService {
 				new District(13L, "Igapó",1 ,4),
 				new District(14L, "Lagoa Azul",1 ,6),
 				new District(15L, "Lagoa Nova", 2, 2),
-				new District(16L, "Lagoa Seca",3 ,3),
-				new District(16L, "Mãe Luíza",4 ,3),
-				new District(16L, "Neópolis",3 ,1),
-				new District(16L, "Nordeste",1 ,3),
-				new District(16L, "Nossa Senhora da Apresentação",0 ,5),
-				new District(16L, "Nossa Senhora de Nazaré",2 ,3),
-				new District(16L, "Nova Descoberta",3, 2),
-				new District(16L, "Pajuçara",2 ,6),
-				new District(16L, "Petrópolis",3 ,4),
-				new District(16L, "Pitimbu",2 ,1),
-				new District(16L, "Planalto",1 ,1),
-				new District(16L, "Ponta Negra",0 ,4),
-				new District(16L, "Potengi",1 ,5),
-				new District(16L, "Praia do Meio",3 ,4),
-				new District(16L, "Quintas",2 ,3),
-				new District(16L, "Redinha",2 ,5),
-				new District(16L, "Ribeira",3 ,4),
-				new District(16L, "Rocas",3 ,4),
-				new District(16L, "Salinas",1 ,4),
-				new District(16L, "Santos Reis",3 ,5),
-				new District(16L, "Tirol",3 ,3)
+				new District(17L, "Lagoa Seca",3 ,3),
+				new District(18L, "Mãe Luíza",4 ,3),
+				new District(19L, "Neópolis",3 ,1),
+				new District(20L, "Nordeste",1 ,3),
+				new District(21L, "Nossa Senhora da Apresentação",0 ,5),
+				new District(22L, "Nossa Senhora de Nazaré",2 ,3),
+				new District(23L, "Nova Descoberta",3, 2),
+				new District(24L, "Pajuçara",2 ,6),
+				new District(25L, "Petrópolis",3 ,4),
+				new District(26L, "Pitimbu",2 ,1),
+				new District(27L, "Planalto",1 ,1),
+				new District(28L, "Ponta Negra",0 ,4),
+				new District(29L, "Potengi",1 ,5),
+				new District(30L, "Praia do Meio",3 ,4),
+				new District(31L, "Quintas",2 ,3),
+				new District(32L, "Redinha",2 ,5),
+				new District(33L, "Ribeira",3 ,4),
+				new District(34L, "Rocas",3 ,4),
+				new District(35L, "Salinas",1 ,4),
+				new District(36L, "Santos Reis",3 ,5),
+				new District(37L, "Tirol",3 ,3)
 				);
 	}
 	
@@ -70,6 +69,11 @@ public class DistrictService {
     }
 	public Optional<District> find(Long id) {
 		return repository.findById(id);
+	}
+	
+	public Integer getDistance(District d1, District d2) {
+		int distance = Math.abs(d1.getCoordnateX()-d2.getCoordnateX()) + Math.abs(d1.getCoordnateY()-d2.getCoordnateY());
+		return distance;
 	}
 }
 
