@@ -36,6 +36,8 @@ public class District {
 	}
 	public Integer getCoordnateY() {
 		return this.coordinate.getY();
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
