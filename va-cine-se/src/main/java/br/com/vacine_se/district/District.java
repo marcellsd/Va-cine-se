@@ -8,21 +8,24 @@ import org.springframework.data.annotation.Id;
 public class District {
 	@NotNull(message = "must be a District ID")
 	@Positive(message="ID must be an positive integer")
-	private final Long id;
+	private int id;
 	@NotNull(message = "must be a district name")
 	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
 	private final String name;
 	
-	public District(Long id, String name){
-		this.id = id;
+	public District(String name){
 		this.name = name;
 	}
     @Id
-	public Long getId() {
+	public int getId() {
 		return this.id;
 	}
 	
 	public String getName() {
 		return this.name;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

@@ -4,21 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.map.repository.config.EnableMapRepositories;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 
 @Service
-@EnableMapRepositories
 public class VaccinationSiteService {
-	private final CrudRepository<VaccinationSite, String> repository;
-	
-	public VaccinationSiteService(CrudRepository<VaccinationSite, String> repository) {
-		this.repository = repository;
-		this.repository.saveAll(getVaccinationSiteFromData());
-	}
-	
+
+	private VaccinationSiteRepository repository;
 	
 	private static List<VaccinationSite> getVaccinationSiteFromData(){
 		return List.of(
@@ -27,37 +19,37 @@ public class VaccinationSiteService {
 				);
 	}
 	
+	public VaccinationSiteService(VaccinationSiteRepository repository) {
+		this.repository = repository;
+		for (VaccinationSite vacin : getVaccinationSiteFromData()) {
+			this.repository.save(vacin);
+		}
+	}
+	
+	
 	public List<VaccinationSite> findAll() {
         List<VaccinationSite> list = new ArrayList<>();
-        Iterable<VaccinationSite> vaccinationSites = repository.findAll();
+        Iterable<VaccinationSite> vaccinationSites = repository.getAll();
         vaccinationSites.forEach(list::add);
         return list;
     }
-	public Optional<VaccinationSite> find(String id) {
-		return repository.findById(id);
+	public Optional<VaccinationSite> find(int id) {
+		return repository.getById(id);
 	}
 	
 	public VaccinationSite create(VaccinationSite vaccinationSite) {
-		VaccinationSite copy = new VaccinationSite(vaccinationSite.getName(), vaccinationSite.getDistrictId());
-		return repository.save(copy);
+		return repository.save(vaccinationSite);
 	}
 	
-	public VaccinationSite update( String id, VaccinationSite newVaccinationSite){
-		newVaccinationSite.setId(id);
-		return newVaccinationSite;
+	public VaccinationSite update(int id, VaccinationSite newVaccinationSite){
+		VaccinationSite vaccinationSite = this.find(id).orElseThrow();
+		newVaccinationSite.setId(vaccinationSite.getId());
+		return repository.update(newVaccinationSite);
 	}
-	/*
-	public Optional<VaccinationSite> update( String id, VaccinationSite newVaccinationSite) {
-        return repository.findById(id)
-                .map(oldVaccinationSite -> {
-                	VaccinationSite updated = oldVaccinationSite.updateWith(newVaccinationSite);
-                   return repository.save(updated);
-                });
-    }
-	*/
 	
-	public void delete(String id) {
-		repository.deleteById(id);
+	public void delete(int id) {
+		VaccinationSite vaccinationSite = this.find(id).orElseThrow();
+		repository.delete(vaccinationSite);
 	}
 }
 

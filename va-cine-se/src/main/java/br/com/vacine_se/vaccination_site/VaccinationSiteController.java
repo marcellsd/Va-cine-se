@@ -33,7 +33,7 @@ public class VaccinationSiteController {
     }
 
     @GetMapping("/vaccinationSites/{id}")
-    VaccinationSite one(@PathVariable String id) {
+    VaccinationSite one(@PathVariable int id) {
         return service.find(id).orElseThrow();
     }
 
@@ -43,12 +43,12 @@ public class VaccinationSiteController {
     }
 
     @PutMapping("/vaccinationSites/{id}")
-    VaccinationSite updateVaccinationSite(@Valid @RequestBody VaccinationSite vaccinationSite, @PathVariable String id) {
+    VaccinationSite updateVaccinationSite(@Valid @RequestBody VaccinationSite vaccinationSite, @PathVariable int id) {
         return service.update(id, vaccinationSite);
     }
 
     @DeleteMapping("/vaccinationSites/{id}")
-    void deleteVaccinationSite(@PathVariable String id) {
+    void deleteVaccinationSite(@PathVariable int id) {
         service.delete(id);
     }
     

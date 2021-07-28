@@ -33,7 +33,7 @@ public class AdminController {
     }
 
     @GetMapping("/admins/{id}")
-    Admin one(@PathVariable String id) {
+    Admin one(@PathVariable int id) {
         return service.find(id).orElseThrow();
     }
 
@@ -43,12 +43,12 @@ public class AdminController {
     }
 
     @PutMapping("/admins/{id}")
-    Admin updateAdmin(@Valid @RequestBody Admin admin, @PathVariable String id) {
+    Admin updateAdmin(@Valid @RequestBody Admin admin, @PathVariable int id) {
         return service.update(id, admin);
     }
 
     @DeleteMapping("/admins/{id}")
-    void deleteAdmin(@PathVariable String id) {
+    void deleteAdmin(@PathVariable int id) {
         service.delete(id);
     }
     
