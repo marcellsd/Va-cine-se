@@ -6,26 +6,24 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
 
 public class User {
 	private int id;
 	@NotNull(message = "name required")
-	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
+	@Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", message = "name must be a string")
     private String name;
 	@NotNull(message = "age is required")
     @Positive(message = "age must be positive")
     private int age;
 	@NotNull(message = "districtId is required")
     @Positive(message = "districtId must be positive")
-    private Long districtId;
+    private int districtId;
 	@NotNull(message = "comorbidity status is required")
     private boolean comorbidity;
 	@NotNull(message = "cpf is required")
-	@CPF(message = "must be a valid cpf format")
-    private String cpf;
+	@Pattern(regexp = "([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}-[0-9]{2})", message = "must be a valid cpf format")
+	private String cpf;
     private LocalDate dateScheduled;
     @NotNull(message = "username is required")
 	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "username must be letters and/or numbers")
@@ -36,12 +34,12 @@ public class User {
     @Email(message = "must be a valid email format")
     private String email;
     @NotNull(message = "Phone number is required")
-   	@Pattern(regexp = "^[0-9 ]+$", message = "username must be numbers")
+   	@Pattern(regexp = "^[0-9 ]+$", message = "phone must be numbers")
     private String phoneNumber;
-    private Long schedulingId;
+    private int schedulingId;
     
-	public User(String name, int age, Long districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
-			String userName, String password, String email, String phoneNumber, Long schedulingId) {
+	public User(String name, int age, int districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
+			String userName, String password, String email, String phoneNumber, int schedulingId) {
 		this.name = name;
 		this.age = age;
 		this.districtId = districtId;
@@ -71,7 +69,7 @@ public class User {
 		return age;
 	}
 
-	public Long getDistrictId() {
+	public int getDistrictId() {
 		return districtId;
 	}
 
@@ -103,7 +101,7 @@ public class User {
 		return phoneNumber;
 	}
 
-	public Long getSchedulingId() {
+	public int getSchedulingId() {
 		return schedulingId;
 	}
    

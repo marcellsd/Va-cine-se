@@ -9,13 +9,13 @@ import org.springframework.data.annotation.Id;
 public class VaccinationSite {
 	private int id;
 	@NotNull(message = "name required")
-	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
+	@Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", message = "name must be a string")
 	private final String name;
 	@NotNull(message = "districtId is required")
     @Positive(message = "districtId must be positive")
-	private final Long districtId;
+	private final int districtId;
 	
-	public VaccinationSite(String name, Long districtId){
+	public VaccinationSite(String name, int districtId){
 		this.name = name;
 		this.districtId = districtId;
 	}
@@ -30,7 +30,7 @@ public class VaccinationSite {
 		return this.name;
 	}
 	
-	public Long getDistrictId() {
+	public int getDistrictId() {
 		return this.districtId;
 	}
 }

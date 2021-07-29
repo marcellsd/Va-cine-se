@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 public class Admin {
 	private int id;
 	@NotNull(message = "Admin name required")
-	@Pattern(regexp = "^[a-zA-Z ]+$", message = "Admin name must be a string")
+	@Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", message = "Admin name must be a string")
     private final String name;
 	@NotNull(message = "Admin username is required")
 	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Admin username must be letters and/or numbers")

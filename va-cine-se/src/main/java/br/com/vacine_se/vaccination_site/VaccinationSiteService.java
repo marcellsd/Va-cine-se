@@ -14,8 +14,27 @@ public class VaccinationSiteService {
 	
 	private static List<VaccinationSite> getVaccinationSiteFromData(){
 		return List.of(
-				new VaccinationSite("UPA-Neópolis", 1L),
-				new VaccinationSite("UPA-Candelária", 2L)
+				new VaccinationSite("UBS Pajuçara", 22),
+				new VaccinationSite("USF Nova Natal", 13),
+				new VaccinationSite("USF Redinha", 30),
+				new VaccinationSite("USF Vale Dourado", 12),
+				new VaccinationSite("USF Nova Aliança", 19),
+				new VaccinationSite("UBS Candelária", 4),
+				new VaccinationSite("ESF Rosangela Lima", 25),
+				new VaccinationSite("UBS Nova Descoberta", 21),
+				new VaccinationSite("UBS Satélite", 24),
+				new VaccinationSite("UBS São João", 35),
+				new VaccinationSite("USF Rocas", 32),
+				new VaccinationSite("UBS Alecrim", 0),
+				new VaccinationSite("Unidade Mista Mãe Luiza", 16),
+				new VaccinationSite("UBS Lagoa Seca", 15),
+				new VaccinationSite("USF Nazaré", 20),
+				new VaccinationSite("UM Felipe Camarão II", 10),
+				new VaccinationSite("USF Cidade Nova", 8),
+				new VaccinationSite("USF Bairro Nordeste", 18),
+				new VaccinationSite("USF Quintas", 29),
+				new VaccinationSite("USF Monte Líbano", 3)
+				
 				);
 	}
 	
