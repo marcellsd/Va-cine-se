@@ -16,6 +16,7 @@ import br.com.vacine_se.InMemoryRepository;
 public class VaccinationSiteRepository implements InMemoryRepository<VaccinationSite> {
 
     private List<VaccinationSite> vaccinationSites = new ArrayList<>();
+    private int vaccinationIdCount = 0;
 
     @Override
     public Optional<VaccinationSite> getById(int id) {
@@ -32,8 +33,8 @@ public class VaccinationSiteRepository implements InMemoryRepository<Vaccination
     @Override
     public VaccinationSite save(VaccinationSite vaccinationSite) {
         vaccinationSites.add(vaccinationSite);
-        int index = vaccinationSites.size() - 1;
-        vaccinationSite.setId(index);
+        vaccinationSite.setId(this.vaccinationIdCount);
+        this.vaccinationIdCount++;
         return vaccinationSite;
     }
 

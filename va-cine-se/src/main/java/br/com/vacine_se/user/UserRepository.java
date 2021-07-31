@@ -16,6 +16,7 @@ import br.com.vacine_se.InMemoryRepository;
 public class UserRepository implements InMemoryRepository<User> {
 
     private List<User> users = new ArrayList<>();
+    private int userIdCount = 0;
 
     @Override
     public Optional<User> getById(int id) {
@@ -32,8 +33,8 @@ public class UserRepository implements InMemoryRepository<User> {
     @Override
     public User save(User user) {
         users.add(user);
-        int index = users.size() - 1;
-        user.setId(index);
+        user.setId(this.userIdCount);
+        this.userIdCount++;
         return user;
     }
 

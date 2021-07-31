@@ -19,18 +19,9 @@ public class UserService {
 
 	private UserRepository repository;
 
-	private static List<User> defaultUsers(){
-		return List.of(
-				new User("Joao", 30 , 2, false, "000.000.000-01", "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1),
-				new User("Maria", 31, 1, true, "000.000.000-02", "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2)
-				);
-	}
 
 	public UserService(UserRepository repository) {
 		this.repository = repository;
-		for (User user : defaultUsers()) {
-			this.repository.save(user);
-		}
 	}
 	
     public List<User> findAll() {
