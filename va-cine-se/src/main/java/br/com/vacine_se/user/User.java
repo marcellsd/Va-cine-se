@@ -1,6 +1,5 @@
 package br.com.vacine_se.user;
 
-import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -24,7 +23,6 @@ public class User {
 	@NotNull(message = "cpf is required")
 	@Pattern(regexp = "([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}-[0-9]{2})", message = "must be a valid cpf format")
 	private String cpf;
-    private LocalDate dateScheduled;
     @NotNull(message = "username is required")
 	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "username must be letters and/or numbers")
     private String userName;
@@ -38,14 +36,13 @@ public class User {
     private String phoneNumber;
     private int schedulingId;
     
-	public User(String name, int age, int districtId, boolean comorbidity, String cpf, LocalDate dateScheduled,
+	public User(String name, int age, int districtId, boolean comorbidity, String cpf,
 			String userName, String password, String email, String phoneNumber, int schedulingId) {
 		this.name = name;
 		this.age = age;
 		this.districtId = districtId;
 		this.comorbidity = comorbidity;
 		this.cpf = cpf;
-		this.dateScheduled = dateScheduled;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
@@ -81,9 +78,6 @@ public class User {
 		return cpf;
 	}
 
-	public LocalDate getDateScheduled() {
-		return dateScheduled;
-	}
 
 	public String getUserName() {
 		return userName;
@@ -103,6 +97,11 @@ public class User {
 
 	public int getSchedulingId() {
 		return schedulingId;
+	}
+
+	public void setSchedulingId(int schedulingId) {
+		this.schedulingId = schedulingId;
+		
 	}
    
 }

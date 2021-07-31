@@ -19,38 +19,53 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.vacine_se.district.DistrictService;
+import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.vaccination_site.VaccinationSiteService;
+
 
 @RestController
 public class UserController {
-    private final UserService service;
+    private final UserService userService;
+    private final SchedulingService schedulingService;
+    private final DistrictService districtService;
+    private final VaccinationSiteService vaccinationSiteService;
     
-    UserController(UserService service) {
-        this.service = service;
+    UserController(UserService userService,
+    				SchedulingService schedulingService,
+    				DistrictService districtService,
+    				VaccinationSiteService vaccinationSiteService) {
+        this.userService = userService;
+        this.schedulingService = schedulingService;
+        this.districtService = districtService;
+        this.vaccinationSiteService = vaccinationSiteService;
     }
 
     @GetMapping("/users")
     Iterable<User> all() {
-        return service.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/users/{id}")
     User one(@PathVariable int id) {
-        return service.find(id).orElseThrow();
+        return userService.find(id).orElseThrow();
     }
 
     @PostMapping("/users")
     User newUser(@Valid @RequestBody User user) {
-        return service.create(user);
+    	int schedId = userService.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
+        user.setSchedulingId(schedId);
+    	return userService.create(user);
     }
 
     @PutMapping("/users/{id}")
     User updateUser(@Valid @RequestBody User user, @PathVariable int id) {
-        return service.update(id, user);
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable int id) {
-        service.delete(id);
+    	userService.delete(id);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

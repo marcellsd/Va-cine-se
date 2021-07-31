@@ -28,7 +28,7 @@ public class DistrictController {
     }
 
     @GetMapping("/districts/{id}")
-    District one(@PathVariable int id) {
+    public District one(@PathVariable int id) {
         return service.find(id).orElseThrow();
     }
     
