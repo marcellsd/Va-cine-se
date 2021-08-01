@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vacine_se.district.DistrictService;
 import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
 
@@ -50,7 +51,12 @@ public class UserController {
     User one(@PathVariable int id) {
         return userService.find(id).orElseThrow();
     }
-
+ 
+    @GetMapping("/users/{id}/nearestsVaccinationSites")
+    Iterable<VaccinationSite> orderedByProximity(@PathVariable int id){
+    	return userService.getNearestVaccinationSites(userService.find(id).orElseThrow(), districtService, vaccinationSiteService);
+    }
+    
     @PostMapping("/users")
     User newUser(@Valid @RequestBody User user) {
     	int schedId = userService.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
