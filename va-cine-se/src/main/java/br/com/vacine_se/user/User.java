@@ -35,6 +35,8 @@ public class User {
    	@Pattern(regexp = "^[0-9 ]+$", message = "phone must be numbers")
     private String phoneNumber;
     private int schedulingId;
+    boolean firstDose = false;
+    boolean secondDose = false;
     
 	public User(String name, int age, int districtId, boolean comorbidity, String cpf,
 			String userName, String password, String email, String phoneNumber, int schedulingId) {
@@ -103,5 +105,23 @@ public class User {
 		this.schedulingId = schedulingId;
 		
 	}
+
+	public boolean tookFirstDose() {
+		return firstDose;
+	}
+
+	public void setFirstDose(boolean firstDose) {
+		this.firstDose = firstDose;
+	}
+
+	public boolean tookSecondDose() {
+		return secondDose;
+	}
+
+	public void setSecondDose(boolean secondDose) {
+		this.secondDose = secondDose;
+	}
+	
+	
    
 }
