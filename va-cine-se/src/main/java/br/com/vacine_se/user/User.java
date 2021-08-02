@@ -106,7 +106,7 @@ public class User {
 		
 	}
 
-	public boolean tookFirstDose() {
+	public boolean hasFirstDose() {
 		return firstDose;
 	}
 
@@ -114,7 +114,7 @@ public class User {
 		this.firstDose = firstDose;
 	}
 
-	public boolean tookSecondDose() {
+	public boolean hasSecondDose() {
 		return secondDose;
 	}
 

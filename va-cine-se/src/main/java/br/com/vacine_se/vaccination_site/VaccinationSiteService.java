@@ -6,6 +6,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.vacine_se.scheduling.Scheduling;
+import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.user.User;
+import br.com.vacine_se.user.UserService;
+
 
 @Service
 public class VaccinationSiteService {
@@ -69,6 +74,23 @@ public class VaccinationSiteService {
 	public void delete(int id) {
 		VaccinationSite vaccinationSite = this.find(id).orElseThrow();
 		repository.delete(vaccinationSite);
+	}
+	
+	public void setVaccinationUserStatus(VaccinationSite vaccinationSite, int userId, UserService userService, SchedulingService schedulingService) {
+		User user = userService.find(userId).orElseThrow();
+		
+		Scheduling scheduling = schedulingService.find(user.getSchedulingId()).orElseThrow();
+		
+		if(user.hasFirstDose() == false) {
+			user.setFirstDose(true);
+			scheduling.setDate(scheduling.getDate().plusDays(28));
+			schedulingService.update(scheduling.getId(), scheduling);
+		}
+		else if(user.hasSecondDose() == false) {
+			user.setSecondDose(true);
+			schedulingService.delete(scheduling.getId());
+		}
+		
 	}
 }
 
