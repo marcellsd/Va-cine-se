@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.vacine_se.district.DistrictService;
 import br.com.vacine_se.scheduling.SchedulingService;
 import br.com.vacine_se.user.UserService;
 
@@ -63,6 +62,11 @@ public class VaccinationSiteController {
     @DeleteMapping("/vaccinationSites/{id}")
     void deleteVaccinationSite(@PathVariable int id) {
     	vaccinationSiteService.delete(id);
+    }
+
+    @GetMapping("/vaccinationSites/{id}/queue")
+    String getQueueSize(@PathVariable int id) {
+        return vaccinationSiteService.getQueueSize(id);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

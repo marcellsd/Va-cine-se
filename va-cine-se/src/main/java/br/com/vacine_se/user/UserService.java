@@ -28,9 +28,15 @@ public class UserService{
     public List<User> findAll() {
         List<User> list = new ArrayList<>();
         Iterable<User> users = repository.getAll();
+		// this.populate(list);
         users.forEach(list::add);
         return list;
     }
+
+	public void populate(List<User> list) {
+		User joao = new User("João", 34, 0, false, "123.456.789-10", "joao", "joao123", "joao@gmail.com", "987654321", 0);
+		list.add(joao);
+	}
 
 	public Optional<User> find(int id) {
 		return repository.getById(id);
