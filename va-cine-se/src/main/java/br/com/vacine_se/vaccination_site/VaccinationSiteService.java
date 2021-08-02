@@ -86,16 +86,16 @@ public class VaccinationSiteService {
 				scheduling.setDate(scheduling.getDate().plusDays(28));
 				//schedulingService.update(scheduling.getId(), scheduling);
 				vaccinationSite.setDosesAmount(vaccinationSite.getDosesAmount()-1);
-				return user.getName() + " first dose has been applyed";
+				return "{" + user.getName() + " first dose has been applyed}";
 			}
 			else if(user.hasSecondDose() == false) {
 				user.setSecondDose(true);
 				schedulingService.delete(scheduling.getId());
 				vaccinationSite.setDosesAmount(vaccinationSite.getDosesAmount()-1);
-				return user.getName() + " second dose has been applyed";
+				return "{" + user.getName() + " second dose has been applyed}";
 			}
 		}
-		return "This vaccination site has no vaccine dose left.";
+		return "{This vaccination site has no vaccine dose left}";
 	}
 }
 
