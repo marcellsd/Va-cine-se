@@ -25,7 +25,7 @@ public class User {
 	private String cpf;
     @NotNull(message = "username is required")
 	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "username must be letters and/or numbers")
-    private String userName;
+    private String username;
     @NotNull(message = "password is required")
     private String password;
     @NotNull(message = "email is required")
@@ -35,15 +35,19 @@ public class User {
    	@Pattern(regexp = "^[0-9 ]+$", message = "phone must be numbers")
     private String phoneNumber;
     private int schedulingId;
+    boolean firstDose = false;
+    boolean secondDose = false;
+    
+    public User() {}
     
 	public User(String name, int age, int districtId, boolean comorbidity, String cpf,
-			String userName, String password, String email, String phoneNumber, int schedulingId) {
+			String username, String password, String email, String phoneNumber, int schedulingId) {
 		this.name = name;
 		this.age = age;
 		this.districtId = districtId;
 		this.comorbidity = comorbidity;
 		this.cpf = cpf;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
@@ -79,8 +83,8 @@ public class User {
 	}
 
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
 	public String getPassword() {
@@ -103,5 +107,23 @@ public class User {
 		this.schedulingId = schedulingId;
 		
 	}
+
+	public boolean hasFirstDose() {
+		return firstDose;
+	}
+
+	public void setFirstDose(boolean firstDose) {
+		this.firstDose = firstDose;
+	}
+
+	public boolean hasSecondDose() {
+		return secondDose;
+	}
+
+	public void setSecondDose(boolean secondDose) {
+		this.secondDose = secondDose;
+	}
+	
+	
    
 }

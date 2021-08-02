@@ -4,6 +4,7 @@ package br.com.vacine_se.user;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
 @Service
-public class UserService {
+public class UserService{
 
 	private UserRepository repository;
 
@@ -41,19 +42,38 @@ public class UserService {
 		return repository.getById(id);
 	}
 	
-	public User create(User user) {
+	public User create(User user) throws Exception {
+		if (repository.cpfExists(user.getCpf())) {
+			throw new Exception("CPF already exists");
+		}
+		if(repository.usernameExists(user.getUsername())) {
+			throw new Exception("Username already exists");
+		}
 		return repository.save(user);
 	}
 	
-	public User update(int id, User newUser) {
-		User user = this.find(id).orElseThrow();
-		newUser.setId(user.getId());
-		return repository.update(newUser);
+	public User update(int id, User newUser) throws NoSuchElementException, IndexOutOfBoundsException {
+		try {
+			User user = this.find(id).orElseThrow();
+			newUser.setId(user.getId());
+			return repository.update(newUser);
+		} catch(NoSuchElementException e) {
+			throw e;
+		} catch(IndexOutOfBoundsException e) {
+			throw e;
+		}
       }
 	
-	public void delete(int id) {
-		User user = this.find(id).orElseThrow();
-		repository.delete(user);
+	public boolean delete(int id) throws NoSuchElementException, IndexOutOfBoundsException {
+		try {
+			User user = this.find(id).orElseThrow();
+			repository.delete(user);
+			return true;
+		} catch(NoSuchElementException e) {
+			throw e;
+		} catch(IndexOutOfBoundsException e) {
+			throw e;
+		}
 	}
 	
 	public int setUserScheduling(User user, DistrictService districtService, 
