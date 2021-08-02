@@ -8,23 +8,20 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.vacine_se.district.DistrictService;
+import br.com.vacine_se.scheduling.Scheduling;
+import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.vaccination_site.VaccinationSite;
+import br.com.vacine_se.vaccination_site.VaccinationSiteService;
+
 @Service
 public class UserService {
 
 	private UserRepository repository;
 
-	private static List<User> defaultUsers(){
-		return List.of(
-				new User("Joao", 30 , 2, false, "000.000.000-01", LocalDate.now(), "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1),
-				new User("Maria", 31, 1, true, "000.000.000-02", LocalDate.now(), "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2)
-				);
-	}
 
 	public UserService(UserRepository repository) {
 		this.repository = repository;
-		for (User user : defaultUsers()) {
-			this.repository.save(user);
-		}
 	}
 	
     public List<User> findAll() {
@@ -52,4 +49,68 @@ public class UserService {
 		User user = this.find(id).orElseThrow();
 		repository.delete(user);
 	}
+	
+	public int setUserScheduling(User user, DistrictService districtService, 
+										VaccinationSiteService vaccinationSiteService,
+										SchedulingService schedulingService) {
+		VaccinationSite nearestVacSite = null;
+		
+		int distance = Integer.MAX_VALUE;
+		
+		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+			int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+														districtService.find(vacSite.getDistrictId()).orElseThrow());
+			
+			if (user.getDistrictId() == vacSite.getDistrictId()) {
+				nearestVacSite = vacSite;
+				Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
+				scheduling = schedulingService.create(scheduling);
+				return scheduling.getId();
+			}
+			if(currentDistance < distance) {
+				distance = currentDistance;
+				nearestVacSite = vacSite;
+			}
+		}
+		Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
+		scheduling = schedulingService.create(scheduling);
+		return scheduling.getId();
+	}
+	
+	public List<VaccinationSite> getNearestVaccinationSites(User user, DistrictService districtService, 
+			VaccinationSiteService vaccinationSiteService){
+		List<VaccinationSite> unorderedList = vaccinationSiteService.findAll();
+		List<VaccinationSite> orderedList = new ArrayList<>();
+		VaccinationSite nearestVacSite = null;
+		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+			if (user.getDistrictId() == vacSite.getDistrictId()){
+				orderedList.add(0,vacSite);
+			}
+			else {
+				int vacSiteDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+																districtService.find(vacSite.getDistrictId()).orElseThrow());
+				int currentDistance = vacSiteDistance;	
+				nearestVacSite = vacSite;
+				int count = 0;
+				int nearestMarker = 0;
+				if (unorderedList.size()!=0) {
+					for (VaccinationSite vacSiteIn : unorderedList) {
+						int vacSiteInDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+						districtService.find(vacSiteIn.getDistrictId()).orElseThrow());
+						if (currentDistance >= vacSiteInDistance) {
+							nearestVacSite = vacSiteIn;
+							currentDistance = vacSiteInDistance;
+							nearestMarker = count;
+						}
+						count++;
+					}
+					unorderedList.remove(nearestMarker);
+				
+				}
+				orderedList.add(nearestVacSite);
+				if (orderedList.size() == 5) return orderedList;
+			}
+		}
+		return orderedList;
+}
 }

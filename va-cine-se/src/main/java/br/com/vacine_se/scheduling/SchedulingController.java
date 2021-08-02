@@ -33,7 +33,7 @@ public class SchedulingController {
     }
 
     @GetMapping("/schedulings/{id}")
-    Scheduling one(@PathVariable String id) {
+    Scheduling one(@PathVariable int id) {
         return service.find(id).orElseThrow();
     }
 
@@ -43,12 +43,12 @@ public class SchedulingController {
     }
 
     @PutMapping("/schedulings/{id}")
-    Scheduling updateScheduling(@Valid @RequestBody Scheduling scheduling, @PathVariable String id) {
+    Scheduling updateScheduling(@Valid @RequestBody Scheduling scheduling, @PathVariable int id) {
         return service.update(id, scheduling);
     }
 
     @DeleteMapping("/schedulings/{id}")
-    void deleteScheduling(@PathVariable String id) {
+    void deleteScheduling(@PathVariable int id) {
         service.delete(id);
     }
     

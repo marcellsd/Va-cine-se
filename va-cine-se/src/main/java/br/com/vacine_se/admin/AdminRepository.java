@@ -16,6 +16,7 @@ import br.com.vacine_se.InMemoryRepository;
 public class AdminRepository implements InMemoryRepository<Admin> {
 
     private List<Admin> admins = new ArrayList<>();
+    private int adminIdCount = 0;
 
     @Override
     public Optional<Admin> getById(int id) {
@@ -32,8 +33,8 @@ public class AdminRepository implements InMemoryRepository<Admin> {
     @Override
     public Admin save(Admin admin) {
         admins.add(admin);
-        int index = admins.size() - 1;
-        admin.setId(index);
+        admin.setId(this.adminIdCount);
+        this.adminIdCount++;
         return admin;
     }
 

@@ -6,39 +6,41 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 
-import br.com.vacine_se.utils.IdGenerator;
 
 
 public class Scheduling {
+	private int id;
+	@NotNull(message = "vaccination date is required")
+	private  LocalDate date;
+	@NotNull(message = "Vaccination Site ID is required")
+	private int vaccinationSiteId;
 	
-	private String id;
-	@NotNull(message = "must be a vaccination date")
-	private final LocalDate date;
-	@NotNull(message = "must be a Vaccination Site ID")
-	private final String vaccinationSiteId;
-	
-	public Scheduling(LocalDate date, String vaccinationSiteId) {
-		super();
-		this.id = IdGenerator.getHash();
+	public Scheduling(LocalDate date, int vaccinationSiteId) {
 		this.date = date;
 		this.vaccinationSiteId = vaccinationSiteId;
 	}
 
 	@Id
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
 	public LocalDate getDate() {
 		return date;
 	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 
-	public String getVaccinationSiteId() {
-		return vaccinationSiteId;
+	public int getVaccinationSiteId() {
+		return this.vaccinationSiteId;
+	}
+	public void setVaccinationSiteId(int vaccinationSiteId) {
+		 this.vaccinationSiteId = vaccinationSiteId;
 	}
 	
 	

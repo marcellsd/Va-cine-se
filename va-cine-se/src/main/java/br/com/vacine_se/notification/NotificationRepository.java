@@ -16,6 +16,7 @@ import br.com.vacine_se.InMemoryRepository;
 public class NotificationRepository implements InMemoryRepository<Notification> {
 
     private List<Notification> notifications = new ArrayList<>();
+    private int notificationIdCount = 0;
 
     @Override
     public Optional<Notification> getById(int id) {
@@ -32,8 +33,8 @@ public class NotificationRepository implements InMemoryRepository<Notification> 
     @Override
     public Notification save(Notification notification) {
         notifications.add(notification);
-        int index = notifications.size() - 1;
-        notification.setId(index);
+        notification.setId(this.notificationIdCount);
+        this.notificationIdCount++;
         return notification;
     }
 

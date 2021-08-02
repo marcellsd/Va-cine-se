@@ -11,18 +11,8 @@ public class AdminService {
 
 	private AdminRepository repository;
 
-	private static List<Admin> defaultAdmins(){
-		return List.of(
-				new Admin("Jose", "jose89", "j1989", "jose89@gmail.com"),
-				new Admin("Lourdes","lourdes40", "m1941", "lourdes41@gmail.com")
-				);
-	}
-
 	public AdminService(AdminRepository repository) {
 		this.repository = repository;
-		for (Admin admin : defaultAdmins()) {
-			this.repository.save(admin);
-		}
 	}
 	
     public List<Admin> findAll() {

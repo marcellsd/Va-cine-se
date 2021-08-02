@@ -1,23 +1,20 @@
 package br.com.vacine_se.scheduling;
 
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.map.repository.config.EnableMapRepositories;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-@Service
-@EnableMapRepositories
-public class SchedulingService {
-	private final CrudRepository<Scheduling, String> repository;
 
-	public SchedulingService(CrudRepository<Scheduling, String> repository) {
+@Service
+public class SchedulingService {
+	private SchedulingRepository repository;
+
+	public SchedulingService(SchedulingRepository repository) {
 		this.repository = repository;
-		// this.repository.saveAll(defaultSchedulings());
 	}
 
 	
@@ -31,23 +28,20 @@ public class SchedulingService {
 
     public List<Scheduling> findAll() {
         List<Scheduling> list = new ArrayList<>();
-        Iterable<Scheduling> schedulings = repository.findAll();
+        Iterable<Scheduling> schedulings = repository.getAll();
         schedulings.forEach(list::add);
         return list;
     }
-	public Optional<Scheduling> find(String id) {
-		return repository.findById(id);
+	public Optional<Scheduling> find(int id) {
+		return repository.getById(id);
 	}
 	
 	public Scheduling create(Scheduling scheduling) {
-		Scheduling copy = new Scheduling(
-				scheduling.getDate(),
-				scheduling.getVaccinationSiteId()
-				);
-		return repository.save(copy);
+		return repository.save(scheduling);
 	}
 	
-	public Scheduling update(String id, Scheduling newScheduling) {
+   
+	public Scheduling update(int id, Scheduling newScheduling) {
 		 newScheduling.setId(id);
 		 return repository.save(newScheduling);
 		//return repository.findById(id)
@@ -57,7 +51,8 @@ public class SchedulingService {
                 //});
     }
 	
-	public void delete(String id) {
-		repository.deleteById(id);
+	public void delete(int id) {
+		Scheduling scheduling = this.find(id).orElseThrow();
+		repository.delete(scheduling);
 	}
 }
