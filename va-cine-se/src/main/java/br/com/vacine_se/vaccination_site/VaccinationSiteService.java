@@ -76,21 +76,26 @@ public class VaccinationSiteService {
 		repository.delete(vaccinationSite);
 	}
 	
-	public void setVaccinationUserStatus(VaccinationSite vaccinationSite, int userId, UserService userService, SchedulingService schedulingService) {
+	public String applyVaccine(int vaccinationSiteId, int userId, UserService userService, SchedulingService schedulingService) {
 		User user = userService.find(userId).orElseThrow();
-		
+		VaccinationSite vaccinationSite = this.find(vaccinationSiteId).orElseThrow();
 		Scheduling scheduling = schedulingService.find(user.getSchedulingId()).orElseThrow();
-		
-		if(user.hasFirstDose() == false) {
-			user.setFirstDose(true);
-			scheduling.setDate(scheduling.getDate().plusDays(28));
-			schedulingService.update(scheduling.getId(), scheduling);
+		if (vaccinationSite.getDosesAmount() > 0) {
+			if(user.hasFirstDose() == false) {
+				user.setFirstDose(true);
+				scheduling.setDate(scheduling.getDate().plusDays(28));
+				//schedulingService.update(scheduling.getId(), scheduling);
+				vaccinationSite.setDosesAmount(vaccinationSite.getDosesAmount()-1);
+				return user.getName() + " first dose has been applyed";
+			}
+			else if(user.hasSecondDose() == false) {
+				user.setSecondDose(true);
+				schedulingService.delete(scheduling.getId());
+				vaccinationSite.setDosesAmount(vaccinationSite.getDosesAmount()-1);
+				return user.getName() + " second dose has been applyed";
+			}
 		}
-		else if(user.hasSecondDose() == false) {
-			user.setSecondDose(true);
-			schedulingService.delete(scheduling.getId());
-		}
-		
+		return "This vaccination site has no vaccine dose left.";
 	}
 }
 

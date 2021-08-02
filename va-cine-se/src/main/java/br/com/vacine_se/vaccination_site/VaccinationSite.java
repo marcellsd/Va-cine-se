@@ -14,6 +14,7 @@ public class VaccinationSite {
 	@NotNull(message = "districtId is required")
     @Positive(message = "districtId must be positive")
 	private final int districtId;
+	private int dosesAmount = 1;
 	
 	public VaccinationSite(String name, int districtId){
 		this.name = name;
@@ -32,5 +33,11 @@ public class VaccinationSite {
 	
 	public int getDistrictId() {
 		return this.districtId;
+	}
+	public int getDosesAmount() {
+		return dosesAmount;
+	}
+	public void setDosesAmount(int dosesAmount) {
+		this.dosesAmount = dosesAmount;
 	}
 }

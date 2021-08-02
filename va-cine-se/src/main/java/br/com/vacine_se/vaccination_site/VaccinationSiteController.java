@@ -45,7 +45,9 @@ public class VaccinationSiteController {
         return vaccinationSiteService.find(id).orElseThrow();
     }
     @GetMapping("/vaccinationSites/{vaccinationSiteId}/applydose/{userId}")
-    
+    String applyVaccine(@PathVariable int vaccinationSiteId, @PathVariable int userId) {
+    	return vaccinationSiteService.applyVaccine(vaccinationSiteId, userId, userService, schedulingService);
+    }
     
 
     @PostMapping("/vaccinationSites")
