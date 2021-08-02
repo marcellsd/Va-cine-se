@@ -51,6 +51,11 @@ public class VaccinationSiteController {
     void deleteVaccinationSite(@PathVariable int id) {
         service.delete(id);
     }
+
+    @GetMapping("/vaccinationSites/{id}/queue")
+    String getQueueSize(@PathVariable int id) {
+        return service.getQueueSize(id);
+    }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {

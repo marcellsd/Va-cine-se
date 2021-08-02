@@ -2,6 +2,7 @@ package br.com.vacine_se.scheduling;
 
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class SchedulingService {
         schedulings.forEach(list::add);
         return list;
     }
+
 	public Optional<Scheduling> find(int id) {
 		return repository.getById(id);
 	}
@@ -55,4 +57,10 @@ public class SchedulingService {
 		Scheduling scheduling = this.find(id).orElseThrow();
 		repository.delete(scheduling);
 	}
+
+	public int totalSchedulesForADate(LocalDate date, int vaccinationSiteId) {
+		int result = (int)this.findAll().stream().filter(s -> s.getDate() == date && s.getVaccinationSiteId() == vaccinationSiteId).count();
+		return result;
+	}
+
 }

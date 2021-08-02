@@ -47,5 +47,5 @@ public class SchedulingRepository implements InMemoryRepository<Scheduling> {
     public void delete(Scheduling scheduling) {
     	schedulings.set(scheduling.getId(), null);
     }
-    
+
 }

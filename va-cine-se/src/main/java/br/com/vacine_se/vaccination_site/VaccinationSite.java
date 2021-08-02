@@ -14,23 +14,35 @@ public class VaccinationSite {
 	@NotNull(message = "districtId is required")
     @Positive(message = "districtId must be positive")
 	private final int districtId;
+	private int totalOfVaccines;
 	
 	public VaccinationSite(String name, int districtId){
 		this.name = name;
 		this.districtId = districtId;
+		this.totalOfVaccines = 100;
 	}
     @Id
 	public int getId() {
 		return this.id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return this.name;
 	}
 	
 	public int getDistrictId() {
 		return this.districtId;
+	}
+
+	public int getTotalOfVaccines() {
+		return this.totalOfVaccines;
+	}
+
+	public void setTotalOfVacines(int total) {
+		this.totalOfVaccines = total;
 	}
 }

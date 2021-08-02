@@ -1,16 +1,21 @@
 package br.com.vacine_se.vaccination_site;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.vacine_se.scheduling.SchedulingService;
+
 
 @Service
 public class VaccinationSiteService {
 
 	private VaccinationSiteRepository repository;
+
+	private SchedulingService schedulingService;
 	
 	private static List<VaccinationSite> getVaccinationSiteFromData(){
 		return List.of(
@@ -38,8 +43,9 @@ public class VaccinationSiteService {
 				);
 	}
 	
-	public VaccinationSiteService(VaccinationSiteRepository repository) {
+	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingService ss) {
 		this.repository = repository;
+		this.schedulingService = ss;
 		for (VaccinationSite vacin : getVaccinationSiteFromData()) {
 			this.repository.save(vacin);
 		}
@@ -69,6 +75,20 @@ public class VaccinationSiteService {
 	public void delete(int id) {
 		VaccinationSite vaccinationSite = this.find(id).orElseThrow();
 		repository.delete(vaccinationSite);
+	}
+
+	public String getQueueSize(int id) {
+		int totalDoses = repository.getById(id).get().getTotalOfVaccines();
+		int totalSchedules = schedulingService.totalSchedulesForADate(LocalDate.now().plusDays(30), id);
+
+		int remainingDoses = totalDoses - totalSchedules;
+		if (remainingDoses > 75) {
+			return "Pouca fila";
+		}
+		if (remainingDoses > 50) {
+			return "Fila moderada";
+		}
+		return "Fila grande";
 	}
 }
 
