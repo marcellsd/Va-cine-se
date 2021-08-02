@@ -6,66 +6,111 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.map.repository.config.EnableMapRepositories;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import br.com.vacine_se.district.DistrictService;
+import br.com.vacine_se.scheduling.Scheduling;
+import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.vaccination_site.VaccinationSite;
+import br.com.vacine_se.vaccination_site.VaccinationSiteService;
+
 @Service
-@EnableMapRepositories
 public class UserService {
-	private final CrudRepository<User, String> repository;
 
-	public UserService(CrudRepository<User, String> repository) {
+	private UserRepository repository;
+
+
+	public UserService(UserRepository repository) {
 		this.repository = repository;
-		this.repository.saveAll(defaultUsers());
 	}
-
 	
-	private static List<User> defaultUsers(){
-		return List.of(
-				new User("Joao", 30 , 2L, false, "000.000.000-01", LocalDate.now(), "joao91", "j1991", "joao91@gmail.com", "2222-1111", 1L),
-				new User("Maria", 31, 1L, true, "000.000.000-02", LocalDate.now(), "maria90", "m1990", "maria90@gmail.com", "1111-2222", 2L)
-				);
-	}
-
     public List<User> findAll() {
         List<User> list = new ArrayList<>();
-        Iterable<User> users = repository.findAll();
+        Iterable<User> users = repository.getAll();
         users.forEach(list::add);
         return list;
     }
-	public Optional<User> find(String id) {
-		return repository.findById(id);
+
+	public Optional<User> find(int id) {
+		return repository.getById(id);
 	}
 	
 	public User create(User user) {
-		User copy = new User(
-				user.getName(),
-				user.getAge(),
-				user.getDistrictId(),
-				user.isComorbidity(),
-				user.getCpf(),
-				user.getDateScheduled(),
-				user.getUserName(),
-				user.getPassword(),
-				user.getEmail(),
-				user.getPhoneNumber(),
-				user.getSchedulingId()
-				);
-		return repository.save(copy);
+		return repository.save(user);
 	}
 	
-	public User update(String id, User newUser) {
-		newUser.setId(id);
-		return repository.save(newUser);
-        // return repository.findById(id)
-        //         .map(oldUser-> {
-        //         	User updated = oldUser.updateWith(newUser);
-        //            return repository.save(updated);
-        //         });
-    }
+	public User update(int id, User newUser) {
+		User user = this.find(id).orElseThrow();
+		newUser.setId(user.getId());
+		return repository.update(newUser);
+      }
 	
-	public void delete(String id) {
-		repository.deleteById(id);
+	public void delete(int id) {
+		User user = this.find(id).orElseThrow();
+		repository.delete(user);
 	}
+	
+	public int setUserScheduling(User user, DistrictService districtService, 
+										VaccinationSiteService vaccinationSiteService,
+										SchedulingService schedulingService) {
+		VaccinationSite nearestVacSite = null;
+		
+		int distance = Integer.MAX_VALUE;
+		
+		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+			int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+														districtService.find(vacSite.getDistrictId()).orElseThrow());
+			
+			if (user.getDistrictId() == vacSite.getDistrictId()) {
+				nearestVacSite = vacSite;
+				Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
+				scheduling = schedulingService.create(scheduling);
+				return scheduling.getId();
+			}
+			if(currentDistance < distance) {
+				distance = currentDistance;
+				nearestVacSite = vacSite;
+			}
+		}
+		Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
+		scheduling = schedulingService.create(scheduling);
+		return scheduling.getId();
+	}
+	
+	public List<VaccinationSite> getNearestVaccinationSites(User user, DistrictService districtService, 
+			VaccinationSiteService vaccinationSiteService){
+		List<VaccinationSite> unorderedList = vaccinationSiteService.findAll();
+		List<VaccinationSite> orderedList = new ArrayList<>();
+		VaccinationSite nearestVacSite = null;
+		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+			if (user.getDistrictId() == vacSite.getDistrictId()){
+				orderedList.add(0,vacSite);
+			}
+			else {
+				int vacSiteDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+																districtService.find(vacSite.getDistrictId()).orElseThrow());
+				int currentDistance = vacSiteDistance;	
+				nearestVacSite = vacSite;
+				int count = 0;
+				int nearestMarker = 0;
+				if (unorderedList.size()!=0) {
+					for (VaccinationSite vacSiteIn : unorderedList) {
+						int vacSiteInDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+						districtService.find(vacSiteIn.getDistrictId()).orElseThrow());
+						if (currentDistance >= vacSiteInDistance) {
+							nearestVacSite = vacSiteIn;
+							currentDistance = vacSiteInDistance;
+							nearestMarker = count;
+						}
+						count++;
+					}
+					unorderedList.remove(nearestMarker);
+				
+				}
+				orderedList.add(nearestVacSite);
+				if (orderedList.size() == 5) return orderedList;
+			}
+		}
+		return orderedList;
+}
 }

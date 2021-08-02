@@ -5,38 +5,32 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.data.annotation.Id;
 
-import br.com.vacine_se.utils.IdGenerator;
 
 public class VaccinationSite {
-	private String id;
+	private int id;
 	@NotNull(message = "name required")
-	@Pattern(regexp = "^[a-zA-Z ]+$", message = "name must be a string")
+	@Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", message = "name must be a string")
 	private final String name;
 	@NotNull(message = "districtId is required")
     @Positive(message = "districtId must be positive")
-	private final Long districtId;
+	private final int districtId;
 	
-	public VaccinationSite(String name, Long districtId){
-		this.id = IdGenerator.getHash();
+	public VaccinationSite(String name, int districtId){
 		this.name = name;
 		this.districtId = districtId;
 	}
     @Id
-	public String getId() {
+	public int getId() {
 		return this.id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
 		return this.name;
 	}
 	
-	public Long getDistrictId() {
+	public int getDistrictId() {
 		return this.districtId;
-	}
-	
-	public VaccinationSite updateWith(VaccinationSite district) {
-		return new VaccinationSite(district.getName(), district.getDistrictId());
 	}
 }

@@ -6,12 +6,10 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.data.annotation.Id;
 
-import br.com.vacine_se.utils.IdGenerator;
-
 public class Admin {
-	private String id;
+	private int id;
 	@NotNull(message = "Admin name required")
-	@Pattern(regexp = "^[a-zA-Z ]+$", message = "Admin name must be a string")
+	@Pattern(regexp = "^[A-Za-zÀ-ÖØ-öø-ÿ ]+$", message = "Admin name must be a string")
     private final String name;
 	@NotNull(message = "Admin username is required")
 	@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Admin username must be letters and/or numbers")
@@ -25,7 +23,6 @@ public class Admin {
     
 	public Admin(String name, String userName, 
 			String password, String email) {
-		this.id = IdGenerator.getHash();
 		this.name = name;
 		this.userName = userName;
 		this.password = password;
@@ -33,11 +30,11 @@ public class Admin {
 	}
 	
 	@Id
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -56,14 +53,5 @@ public class Admin {
 	public String getEmail() {
 		return email;
 	}
-	
-    public Admin updateWith(Admin user) {
-        return new Admin(
-           user.name,
-           user.userName,
-           user.password,
-           user.email
-        );
-    }
     
 }
