@@ -78,33 +78,39 @@ public class UserService{
 	
 	public int setUserScheduling(User user, DistrictService districtService, 
 										VaccinationSiteService vaccinationSiteService,
-										SchedulingService schedulingService) {
-		VaccinationSite nearestVacSite = null;
-		
-		int distance = Integer.MAX_VALUE;
-		
-		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
-			int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
-														districtService.find(vacSite.getDistrictId()).orElseThrow());
-			
-			if (user.getDistrictId() == vacSite.getDistrictId()) {
-				nearestVacSite = vacSite;
+										SchedulingService schedulingService) throws NoSuchElementException, IndexOutOfBoundsException{
+		try {
+			VaccinationSite nearestVacSite = null;
+			int distance = Integer.MAX_VALUE;
+				for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+					int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+																districtService.find(vacSite.getDistrictId()).orElseThrow());
+					
+					if (user.getDistrictId() == vacSite.getDistrictId()) {
+						nearestVacSite = vacSite;
+						Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
+						scheduling = schedulingService.create(scheduling);
+						return scheduling.getId();
+					}
+					if(currentDistance < distance) {
+						distance = currentDistance;
+						nearestVacSite = vacSite;
+					}
+				}
 				Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
 				scheduling = schedulingService.create(scheduling);
 				return scheduling.getId();
+				
+			}  catch(NoSuchElementException e) {
+				throw e;
+			} catch(IndexOutOfBoundsException e) {
+				throw e;
 			}
-			if(currentDistance < distance) {
-				distance = currentDistance;
-				nearestVacSite = vacSite;
-			}
-		}
-		Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
-		scheduling = schedulingService.create(scheduling);
-		return scheduling.getId();
 	}
 	
 	public List<VaccinationSite> getNearestVaccinationSites(User user, DistrictService districtService, 
-			VaccinationSiteService vaccinationSiteService){
+															VaccinationSiteService vaccinationSiteService) {
+	
 		List<VaccinationSite> unorderedList = vaccinationSiteService.findAll();
 		List<VaccinationSite> orderedList = new ArrayList<>();
 		VaccinationSite nearestVacSite = null;
@@ -138,5 +144,5 @@ public class UserService{
 			}
 		}
 		return orderedList;
-}
+	}
 }

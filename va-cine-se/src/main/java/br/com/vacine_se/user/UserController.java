@@ -61,8 +61,14 @@ public class UserController {
     }
  
     @GetMapping("/users/{id}/nearestsVaccinationSites")
-    Iterable<VaccinationSite> orderedByProximity(@PathVariable int id){
-    	return userService.getNearestVaccinationSites(userService.find(id).orElseThrow(), districtService, vaccinationSiteService);
+    ResponseEntity<Iterable<VaccinationSite>> getNearests(@PathVariable int id){
+    	try{
+    		return new ResponseEntity<>(userService.getNearestVaccinationSites(userService.find(id).orElseThrow(), districtService, vaccinationSiteService), HttpStatus.OK);
+    	} catch(NoSuchElementException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch(IndexOutOfBoundsException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
     }
     
     @PostMapping("/users")
