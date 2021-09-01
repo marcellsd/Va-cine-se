@@ -1,7 +1,6 @@
 package br.com.vacine_se.user;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -10,8 +9,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.vacine_se.district.DistrictService;
-import br.com.vacine_se.scheduling.Scheduling;
-import br.com.vacine_se.scheduling.SchedulingService;
 import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
@@ -74,38 +71,6 @@ public class UserService{
 		} catch(IndexOutOfBoundsException e) {
 			throw e;
 		}
-	}
-	
-	public int setUserScheduling(User user, DistrictService districtService, 
-										VaccinationSiteService vaccinationSiteService,
-										SchedulingService schedulingService) throws NoSuchElementException, IndexOutOfBoundsException{
-		try {
-			VaccinationSite nearestVacSite = null;
-			int distance = Integer.MAX_VALUE;
-				for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
-					int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
-																districtService.find(vacSite.getDistrictId()).orElseThrow());
-					
-					if (user.getDistrictId() == vacSite.getDistrictId()) {
-						nearestVacSite = vacSite;
-						Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
-						scheduling = schedulingService.create(scheduling);
-						return scheduling.getId();
-					}
-					if(currentDistance < distance) {
-						distance = currentDistance;
-						nearestVacSite = vacSite;
-					}
-				}
-				Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
-				scheduling = schedulingService.create(scheduling);
-				return scheduling.getId();
-				
-			}  catch(NoSuchElementException e) {
-				throw e;
-			} catch(IndexOutOfBoundsException e) {
-				throw e;
-			}
 	}
 	
 	public List<VaccinationSite> getNearestVaccinationSites(User user, DistrictService districtService, 

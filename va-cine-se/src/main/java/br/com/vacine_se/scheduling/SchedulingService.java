@@ -1,31 +1,17 @@
 package br.com.vacine_se.scheduling;
 
-
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+import br.com.vacine_se.district.DistrictService;
+import br.com.vacine_se.user.User;
+import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
-
-@Service
-public class SchedulingService {
+public abstract class SchedulingService {
 	private SchedulingRepository repository;
-
-	public SchedulingService(SchedulingRepository repository) {
-		this.repository = repository;
-	}
-
-	
-	// TODO: adicionar vacinationsite service para buscar os IDs
-	// private static List<Scheduling> defaultSchedulings(){
-	// 	return List.of(
-	// 			new Scheduling(LocalDate.now(), 1L),
-	// 			new Scheduling(LocalDate.now(), 2L)
-	// 			);
-	// }
 
     public List<Scheduling> findAll() {
         List<Scheduling> list = new ArrayList<>();
@@ -46,11 +32,6 @@ public class SchedulingService {
 	public Scheduling update(int id, Scheduling newScheduling) {
 		 newScheduling.setId(id);
 		 return repository.save(newScheduling);
-		//return repository.findById(id)
-                //.map(oldScheduling-> {
-                //	Scheduling updated = oldScheduling.updateWith(newScheduling);
-                //   return repository.save(updated);
-                //});
     }
 	
 	public void delete(int id) {
@@ -62,5 +43,9 @@ public class SchedulingService {
 		int result = (int)this.findAll().stream().filter(s -> s.getDate() == date && s.getVaccinationSiteId() == vaccinationSiteId).count();
 		return result;
 	}
+
+	public abstract int setUserScheduling(User user, DistrictService districtService, 
+										VaccinationSiteService vaccinationSiteService) throws NoSuchElementException, IndexOutOfBoundsException;
+
 
 }

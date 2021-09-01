@@ -31,6 +31,13 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/User.java.mgc</name>
+			<type>1</type>
+			<location>C:/UFRN/PDS/Va-cine-se/va-cine-se/src/main/java/br/com/vacine_se/user/User.java</location>
+		</link>
+	</linkedResources>
 	<filteredResources>
 		<filter>
 			<id>1626300554035</id>
