@@ -8,6 +8,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.scheduling.Scheduling;
+import br.com.vacine_se.user.User;
+import br.com.vacine_se.user.UserService;
 
 
 @Service
@@ -89,6 +92,27 @@ public class VaccinationSiteService {
 			return "Fila moderada";
 		}
 		return "Fila grande";
+	}
+	
+	public String applyVaccine(int vaccinationSiteId, int userId, UserService userService, SchedulingService schedulingService) {
+		User user = userService.find(userId).orElseThrow();
+		VaccinationSite vaccinationSite = this.find(vaccinationSiteId).orElseThrow();
+		Scheduling scheduling = schedulingService.find(user.getSchedulingId()).orElseThrow();
+		if (vaccinationSite.getTotalOfVaccines() > 0) {
+			if(user.hasFirstDose() == false) {
+				user.setFirstDose(true);
+				scheduling.setDate(scheduling.getDate().plusDays(28));
+				vaccinationSite.setTotalOfVacines(vaccinationSite.getTotalOfVaccines()-1);
+				return "{" + user.getName() + " first dose has been applyed}";
+			}
+			else if(user.hasSecondDose() == false) {
+				user.setSecondDose(true);
+				schedulingService.delete(scheduling.getId());
+				vaccinationSite.setTotalOfVacines(vaccinationSite.getTotalOfVaccines()-1);
+				return "{" + user.getName() + " second dose has been applyed}";
+			}
+		}
+		return "{This vaccination site has no vaccine dose left}";
 	}
 }
 

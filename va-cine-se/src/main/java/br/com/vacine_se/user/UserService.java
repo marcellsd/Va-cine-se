@@ -4,6 +4,7 @@ package br.com.vacine_se.user;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -15,13 +16,19 @@ import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
 @Service
-public class UserService {
+public class UserService{
 
+	private VaccinationSiteService vaccinationSiteService;
+	private SchedulingService schedulingService;
 	private UserRepository repository;
+	private DistrictService districtService;
 
 
-	public UserService(UserRepository repository) {
+	public UserService(UserRepository repository, DistrictService districtService, VaccinationSiteService vaccinationSiteService, SchedulingService schedulingService) {
 		this.repository = repository;
+		this.districtService = districtService;
+		this.vaccinationSiteService = vaccinationSiteService;
+		this.schedulingService = schedulingService;
 	}
 	
     public List<User> findAll() {
@@ -41,50 +48,77 @@ public class UserService {
 		return repository.getById(id);
 	}
 	
-	public User create(User user) {
+	public User create(User user) throws Exception {
+		if (repository.cpfExists(user.getCpf())) {
+			throw new Exception("CPF already exists");
+		}
+		if(repository.usernameExists(user.getUsername())) {
+			throw new Exception("Username already exists");
+		}
+		int schedId = this.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
+		user.setSchedulingId(schedId);
 		return repository.save(user);
 	}
 	
-	public User update(int id, User newUser) {
-		User user = this.find(id).orElseThrow();
-		newUser.setId(user.getId());
-		return repository.update(newUser);
+	public User update(int id, User newUser) throws NoSuchElementException, IndexOutOfBoundsException {
+		try {
+			User user = this.find(id).orElseThrow();
+			newUser.setId(user.getId());
+			return repository.update(newUser);
+		} catch(NoSuchElementException e) {
+			throw e;
+		} catch(IndexOutOfBoundsException e) {
+			throw e;
+		}
       }
 	
-	public void delete(int id) {
-		User user = this.find(id).orElseThrow();
-		repository.delete(user);
+	public boolean delete(int id) throws NoSuchElementException, IndexOutOfBoundsException {
+		try {
+			User user = this.find(id).orElseThrow();
+			repository.delete(user);
+			return true;
+		} catch(NoSuchElementException e) {
+			throw e;
+		} catch(IndexOutOfBoundsException e) {
+			throw e;
+		}
 	}
 	
 	public int setUserScheduling(User user, DistrictService districtService, 
 										VaccinationSiteService vaccinationSiteService,
-										SchedulingService schedulingService) {
-		VaccinationSite nearestVacSite = null;
-		
-		int distance = Integer.MAX_VALUE;
-		
-		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
-			int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
-														districtService.find(vacSite.getDistrictId()).orElseThrow());
-			
-			if (user.getDistrictId() == vacSite.getDistrictId()) {
-				nearestVacSite = vacSite;
+										SchedulingService schedulingService) throws NoSuchElementException, IndexOutOfBoundsException{
+		try {
+			VaccinationSite nearestVacSite = null;
+			int distance = Integer.MAX_VALUE;
+				for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+					int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+																districtService.find(vacSite.getDistrictId()).orElseThrow());
+					
+					if (user.getDistrictId() == vacSite.getDistrictId()) {
+						nearestVacSite = vacSite;
+						Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
+						scheduling = schedulingService.create(scheduling);
+						return scheduling.getId();
+					}
+					if(currentDistance < distance) {
+						distance = currentDistance;
+						nearestVacSite = vacSite;
+					}
+				}
 				Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
 				scheduling = schedulingService.create(scheduling);
 				return scheduling.getId();
+				
+			}  catch(NoSuchElementException e) {
+				throw e;
+			} catch(IndexOutOfBoundsException e) {
+				throw e;
 			}
-			if(currentDistance < distance) {
-				distance = currentDistance;
-				nearestVacSite = vacSite;
-			}
-		}
-		Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
-		scheduling = schedulingService.create(scheduling);
-		return scheduling.getId();
 	}
 	
 	public List<VaccinationSite> getNearestVaccinationSites(User user, DistrictService districtService, 
-			VaccinationSiteService vaccinationSiteService){
+															VaccinationSiteService vaccinationSiteService) {
+	
 		List<VaccinationSite> unorderedList = vaccinationSiteService.findAll();
 		List<VaccinationSite> orderedList = new ArrayList<>();
 		VaccinationSite nearestVacSite = null;
@@ -118,5 +152,5 @@ public class UserService {
 			}
 		}
 		return orderedList;
-}
+	}
 }

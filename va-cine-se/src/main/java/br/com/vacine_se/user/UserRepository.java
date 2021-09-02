@@ -22,7 +22,7 @@ public class UserRepository implements InMemoryRepository<User> {
     public Optional<User> getById(int id) {
         return Optional.ofNullable(users.get(id));
     }
-
+    
     @Override
     public Collection<User> getAll() {
         return users.stream()
@@ -47,5 +47,22 @@ public class UserRepository implements InMemoryRepository<User> {
     public void delete(User user) {
         users.set(user.getId(), null);
     }
-
+    
+    public boolean usernameExists(String username){
+    	for (User user : users) {
+			if(user.getUsername().compareTo(username) == 0) {
+				return true;
+			}
+    	}
+    	return false;
+    }
+    
+    public boolean cpfExists(String cpf){
+    	for (User user : users) {
+			if(user.getCpf().compareTo(cpf) == 0) {
+				return true;
+			}
+    	}
+    	return false;
+    }
 }

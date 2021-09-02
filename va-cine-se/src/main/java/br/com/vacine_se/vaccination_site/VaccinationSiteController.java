@@ -19,42 +19,54 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.user.UserService;
+
 @RestController
 public class VaccinationSiteController {
-    private final VaccinationSiteService service;
+    private final VaccinationSiteService vaccinationSiteService;
+    private final UserService userService;
+    private final SchedulingService schedulingService;
     
-    VaccinationSiteController(VaccinationSiteService service) {
-        this.service = service;
+    VaccinationSiteController(VaccinationSiteService vaccinationSiteService, UserService userService, SchedulingService schedulingService) {
+        this.vaccinationSiteService = vaccinationSiteService;
+        this.userService = userService;
+        this.schedulingService = schedulingService;
     }
 
     @GetMapping("/vaccinationSites")
     Iterable<VaccinationSite> all() {
-        return service.findAll();
+        return vaccinationSiteService.findAll();
     }
 
     @GetMapping("/vaccinationSites/{id}")
     VaccinationSite one(@PathVariable int id) {
-        return service.find(id).orElseThrow();
+        return vaccinationSiteService.find(id).orElseThrow();
     }
+    @GetMapping("/vaccinationSites/{vaccinationSiteId}/applydose/{userId}")
+    String applyVaccine(@PathVariable int vaccinationSiteId, @PathVariable int userId) {
+    	return vaccinationSiteService.applyVaccine(vaccinationSiteId, userId, userService, schedulingService);
+    }
+    
 
     @PostMapping("/vaccinationSites")
     VaccinationSite newVaccinationSite(@Valid @RequestBody VaccinationSite vaccinationSite) {
-        return service.create(vaccinationSite);
+        return vaccinationSiteService.create(vaccinationSite);
     }
 
     @PutMapping("/vaccinationSites/{id}")
     VaccinationSite updateVaccinationSite(@Valid @RequestBody VaccinationSite vaccinationSite, @PathVariable int id) {
-        return service.update(id, vaccinationSite);
+        return vaccinationSiteService.update(id, vaccinationSite);
     }
 
     @DeleteMapping("/vaccinationSites/{id}")
     void deleteVaccinationSite(@PathVariable int id) {
-        service.delete(id);
+    	vaccinationSiteService.delete(id);
     }
 
     @GetMapping("/vaccinationSites/{id}/queue")
     String getQueueSize(@PathVariable int id) {
-        return service.getQueueSize(id);
+        return vaccinationSiteService.getQueueSize(id);
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

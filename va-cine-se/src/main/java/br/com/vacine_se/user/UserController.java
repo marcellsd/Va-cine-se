@@ -3,9 +3,11 @@ package br.com.vacine_se.user;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -48,30 +50,56 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    User one(@PathVariable int id) {
-        return userService.find(id).orElseThrow();
+    ResponseEntity<User> one(@PathVariable int id) {
+    	try {
+    		return new ResponseEntity<>(userService.find(id).orElseThrow(), HttpStatus.OK);
+    	} catch(NoSuchElementException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch(IndexOutOfBoundsException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
     }
  
     @GetMapping("/users/{id}/nearestsVaccinationSites")
-    Iterable<VaccinationSite> orderedByProximity(@PathVariable int id){
-    	return userService.getNearestVaccinationSites(userService.find(id).orElseThrow(), districtService, vaccinationSiteService);
+    ResponseEntity<Iterable<VaccinationSite>> getNearests(@PathVariable int id){
+    	try{
+    		return new ResponseEntity<>(userService.getNearestVaccinationSites(userService.find(id).orElseThrow(), districtService, vaccinationSiteService), HttpStatus.OK);
+    	} catch(NoSuchElementException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch(IndexOutOfBoundsException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
     }
     
     @PostMapping("/users")
-    User newUser(@Valid @RequestBody User user) {
-    	int schedId = userService.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
-        user.setSchedulingId(schedId);
-    	return userService.create(user);
+    ResponseEntity<User> newUser(@Valid @RequestBody User user) {
+        try {
+        	return new ResponseEntity<>(userService.create(user), HttpStatus.OK);
+        } catch(Exception e) {
+        	return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     @PutMapping("/users/{id}")
-    User updateUser(@Valid @RequestBody User user, @PathVariable int id) {
-        return userService.update(id, user);
+    ResponseEntity<User> updateUser(@Valid @RequestBody User user, @PathVariable int id) {
+        try {
+        	return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
+		} catch(NoSuchElementException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch(IndexOutOfBoundsException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
     }
-
     @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable int id) {
-    	userService.delete(id);
+    ResponseEntity<Boolean> deleteUser(@PathVariable int id) {
+    	try {
+    		return new ResponseEntity<>(userService.delete(id),HttpStatus.OK);
+    	}catch(NoSuchElementException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch(IndexOutOfBoundsException e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+    
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
