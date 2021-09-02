@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="br.com.vacine_se.user.UserRepository" x="237" y="785">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="br.com.vacine_se.user.User"
+            endpointName="users" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.user.User"/>
+    </Class>
+    <Class name="br.com.vacine_se.vaccination_site.VaccinationSite"
+        x="778" y="1232">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="br.com.vacine_se.scheduling.SchedulingRepository"
+        x="1605" y="917">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.scheduling.Scheduling"
+            endpointName="schedulings" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.Scheduling"/>
+    </Class>
+    <Class
+        name="br.com.vacine_se.vaccination_site.VaccinationSiteRepository"
+        x="730" y="830">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSite"
+            endpointName="vaccinationSites" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSite"/>
+    </Class>
+    <Class name="br.com.vacine_se.scheduling.Scheduling" x="1592" y="1255">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="br.com.vacine_se.notification.NotificationController"
+        x="2055" y="382">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.notification.NotificationService"
+            endpointName="service" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.notification.NotificationService"/>
+    </Class>
+    <Class name="br.com.vacine_se.district.DistrictController" x="1004" y="270">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.district.DistrictService"
+            endpointName="service" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.district.DistrictService"/>
+    </Class>
+    <Class name="br.com.vacine_se.scheduling.SchedulingService" x="1582" y="606">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.scheduling.SchedulingRepository"
+            endpointName="repository" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.SchedulingRepository"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.Scheduling"/>
+    </Class>
+    <Class name="br.com.vacine_se.district.DistrictService" x="1220" y="710">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.district.DistrictRepository"
+            endpointName="repository" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.district.DistrictRepository"/>
+    </Class>
+    <Class name="br.com.vacine_se.user.UserService" x="257" y="586">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.user.UserRepository"
+            endpointName="repository" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.user.UserRepository"/>
+        <Communication destinationClassName="br.com.vacine_se.user.User"/>
+        <Communication destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSite"/>
+        <Communication destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSiteService"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.Scheduling"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.SchedulingService"/>
+        <Communication destinationClassName="br.com.vacine_se.district.DistrictService"/>
+    </Class>
+    <Class name="br.com.vacine_se.admin.AdminController" x="2718" y="378">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.admin.AdminService"
+            endpointName="service" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.admin.AdminService"/>
+    </Class>
+    <Class name="br.com.vacine_se.district.DistrictRepository" x="1236" y="932">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.district.District"
+            endpointName="districts" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.district.District"/>
+    </Class>
+    <Class name="br.com.vacine_se.admin.AdminRepository" x="2926" y="914">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="br.com.vacine_se.admin.Admin"
+            endpointName="admins" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.admin.Admin"/>
+    </Class>
+    <Class name="br.com.vacine_se.user.User" x="249" y="1213">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="br.com.vacine_se.admin.Admin" x="2936" y="1170">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="br.com.vacine_se.vaccination_site.VaccinationSiteService"
+        x="671" y="578">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.scheduling.SchedulingService"
+            endpointName="schedulingService" kind="Simple"/>
+        <Association
+            destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSiteRepository"
+            endpointName="repository" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSite"/>
+        <Communication destinationClassName="br.com.vacine_se.user.User"/>
+        <Communication destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSiteRepository"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.Scheduling"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.SchedulingService"/>
+    </Class>
+    <Class name="br.com.vacine_se.notification.NotificationRepository"
+        x="2263" y="913">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.notification.Notification"
+            endpointName="notifications" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.notification.Notification"/>
+    </Class>
+    <Class name="br.com.vacine_se.notification.NotificationService"
+        x="2239" y="647">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.notification.NotificationRepository"
+            endpointName="repository" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.notification.NotificationRepository"/>
+        <Communication destinationClassName="br.com.vacine_se.notification.Notification"/>
+    </Class>
+    <Class name="br.com.vacine_se.district.District" x="1198" y="1250">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="br.com.vacine_se.scheduling.SchedulingController"
+        x="1426" y="381">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.scheduling.SchedulingService"
+            endpointName="service" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.scheduling.SchedulingService"/>
+    </Class>
+    <Class name="br.com.vacine_se.user.UserController" x="689" y="376">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.scheduling.SchedulingService"
+            endpointName="schedulingService" kind="Simple"/>
+        <Association
+            destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSiteService"
+            endpointName="vaccinationSiteService" kind="Simple"/>
+        <Association
+            destinationClassName="br.com.vacine_se.district.DistrictService"
+            endpointName="districtService" kind="Simple"/>
+        <Association
+            destinationClassName="br.com.vacine_se.user.UserService"
+            endpointName="userService" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.user.User"/>
+        <Communication destinationClassName="br.com.vacine_se.user.UserService"/>
+    </Class>
+    <Class name="br.com.vacine_se.notification.Notification" x="2315" y="1260">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="br.com.vacine_se.admin.AdminService" x="2932" y="626">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.admin.AdminRepository"
+            endpointName="repository" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.admin.AdminRepository"/>
+        <Communication destinationClassName="br.com.vacine_se.admin.Admin"/>
+    </Class>
+    <Class
+        name="br.com.vacine_se.vaccination_site.VaccinationSiteController"
+        x="42" y="377">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="br.com.vacine_se.scheduling.SchedulingService"
+            endpointName="schedulingService" kind="Simple"/>
+        <Association
+            destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSiteService"
+            endpointName="vaccinationSiteService" kind="Simple"/>
+        <Association
+            destinationClassName="br.com.vacine_se.user.UserService"
+            endpointName="userService" kind="Simple"/>
+        <Communication destinationClassName="br.com.vacine_se.vaccination_site.VaccinationSiteService"/>
+    </Class>
+</ClassDiagram>

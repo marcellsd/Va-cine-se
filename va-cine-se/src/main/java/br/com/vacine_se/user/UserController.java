@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vacine_se.district.DistrictService;
-import br.com.vacine_se.scheduling.SchedulingService;
 import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
@@ -30,16 +29,13 @@ import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final SchedulingService schedulingService;
     private final DistrictService districtService;
     private final VaccinationSiteService vaccinationSiteService;
     
     UserController(UserService userService,
-    				SchedulingService schedulingService,
     				DistrictService districtService,
     				VaccinationSiteService vaccinationSiteService) {
         this.userService = userService;
-        this.schedulingService = schedulingService;
         this.districtService = districtService;
         this.vaccinationSiteService = vaccinationSiteService;
     }
