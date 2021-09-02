@@ -19,7 +19,6 @@ public class VaccinationSite {
 	public VaccinationSite(String name, int districtId){
 		this.name = name;
 		this.districtId = districtId;
-		this.totalOfVaccines = 100;
 	}
     @Id
 	public int getId() {
