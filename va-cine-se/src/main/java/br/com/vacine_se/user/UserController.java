@@ -74,8 +74,6 @@ public class UserController {
     @PostMapping("/users")
     ResponseEntity<User> newUser(@Valid @RequestBody User user) {
         try {
-        	int schedId = userService.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
-            user.setSchedulingId(schedId);
         	return new ResponseEntity<>(userService.create(user), HttpStatus.OK);
         } catch(Exception e) {
         	return new ResponseEntity<>(HttpStatus.CONFLICT);

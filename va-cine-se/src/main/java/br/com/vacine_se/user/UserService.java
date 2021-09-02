@@ -18,11 +18,17 @@ import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 @Service
 public class UserService{
 
+	private VaccinationSiteService vaccinationSiteService;
+	private SchedulingService schedulingService;
 	private UserRepository repository;
+	private DistrictService districtService;
 
 
-	public UserService(UserRepository repository) {
+	public UserService(UserRepository repository, DistrictService districtService, VaccinationSiteService vaccinationSiteService, SchedulingService schedulingService) {
 		this.repository = repository;
+		this.districtService = districtService;
+		this.vaccinationSiteService = vaccinationSiteService;
+		this.schedulingService = schedulingService;
 	}
 	
     public List<User> findAll() {
@@ -49,6 +55,8 @@ public class UserService{
 		if(repository.usernameExists(user.getUsername())) {
 			throw new Exception("Username already exists");
 		}
+		int schedId = this.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
+		user.setSchedulingId(schedId);
 		return repository.save(user);
 	}
 	
