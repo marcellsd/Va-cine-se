@@ -14,15 +14,16 @@ public class DataAquisitionCSV implements DataAquisitionAdapter{
 	@Override
 	public Data readFile(String file) throws IOException, FileNotFoundException{
 		String line;
+		Data data = new Data();
 		try (BufferedReader br = new BufferedReader(new FileReader(file))){
 			line = br.readLine();
 			String[] split = line.split(",");
-			DataAquisitionAdapter.data.setVaccinesQuantity(Integer.parseInt(split[0]));
+			data.setVaccinesQuantity(Integer.parseInt(split[0]));
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-			DataAquisitionAdapter.data.setDateOfArrival(LocalDate.parse(split[1], formatter));
+			data.setDateOfArrival(LocalDate.parse(split[1], formatter));
 		}
 		
-		return DataAquisitionAdapter.data;
+		return data;
 	}
 
 }

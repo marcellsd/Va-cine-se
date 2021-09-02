@@ -1,5 +1,7 @@
 package br.com.vacine_se.vaccination_site;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +10,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.AppInitializer.DataInitializer;
+import br.com.vacine_se.data.Data;
+import br.com.vacine_se.data.DataAquisitionAdapter;
 import br.com.vacine_se.scheduling.Scheduling;
 import br.com.vacine_se.user.User;
 import br.com.vacine_se.user.UserService;
+import br.com.vacine_se.vaccine_distribution.DistributionStrategy;
 
 
 @Service
@@ -19,6 +25,14 @@ public class VaccinationSiteService {
 	private VaccinationSiteRepository repository;
 
 	private SchedulingService schedulingService;
+	
+	private DataInitializer dataInitializer;
+	
+	private DistributionStrategy distributionStrategy;
+	
+	private Data dataAquired;
+	
+	private DataAquisitionAdapter dataAdapter;
 	
 	private static List<VaccinationSite> getVaccinationSiteFromData(){
 		return List.of(
@@ -42,16 +56,19 @@ public class VaccinationSiteService {
 				new VaccinationSite("USF Bairro Nordeste", 18),
 				new VaccinationSite("USF Quintas", 29),
 				new VaccinationSite("USF Monte Líbano", 3)
-				
 				);
 	}
 	
-	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingService ss) {
+	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingService ss) throws FileNotFoundException, IOException {
 		this.repository = repository;
 		this.schedulingService = ss;
 		for (VaccinationSite vacin : getVaccinationSiteFromData()) {
 			this.repository.save(vacin);
 		}
+		this.dataInitializer = new DataInitializer();
+		this.distributionStrategy = dataInitializer.getDistributeStrategy();
+		this.dataAdapter = dataInitializer.getDataAquisitionAdapter();
+		this.callDistribute();
 	}
 	
 	
@@ -114,5 +131,11 @@ public class VaccinationSiteService {
 		}
 		return "{This vaccination site has no vaccine dose left}";
 	}
+	
+	public void callDistribute() throws FileNotFoundException, IOException {
+		this.dataAquired = this.dataAdapter.readFile(this.dataInitializer.getDataPath());
+		this.distributionStrategy.distribute(dataAquired,this.repository);
+	}
+
 }
 
