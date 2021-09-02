@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.vacine_se.district.DistrictService;
+import br.com.vacine_se.scheduling.SchedulingServiceCovid;
 import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
@@ -16,10 +17,16 @@ import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 public class UserService{
 
 	private UserRepository repository;
+	private DistrictService districtService;
+	private VaccinationSiteService vaccinationSiteService;
+	private SchedulingServiceCovid schedulingService;
 
 
-	public UserService(UserRepository repository) {
+	public UserService(UserRepository repository, DistrictService districtService, VaccinationSiteService vaccinationSiteService, SchedulingServiceCovid schedulingService) {
 		this.repository = repository;
+		this.districtService = districtService;
+		this.vaccinationSiteService = vaccinationSiteService;
+		this.schedulingService = schedulingService;
 	}
 	
     public List<User> findAll() {
@@ -46,6 +53,8 @@ public class UserService{
 		if(repository.usernameExists(user.getUsername())) {
 			throw new Exception("Username already exists");
 		}
+		int schedId = schedulingService.setUserScheduling(user, districtService, vaccinationSiteService);
+		user.setSchedulingId(schedId);
 		return repository.save(user);
 	}
 	

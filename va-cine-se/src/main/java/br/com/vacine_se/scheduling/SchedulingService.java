@@ -3,7 +3,6 @@ package br.com.vacine_se.scheduling;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import br.com.vacine_se.district.DistrictService;
@@ -12,6 +11,11 @@ import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
 public abstract class SchedulingService {
 	private SchedulingRepository repository;
+	
+	public SchedulingService(SchedulingRepository repository) {
+		this.repository = repository;		
+	}
+	
 
     public List<Scheduling> findAll() {
         List<Scheduling> list = new ArrayList<>();
@@ -44,8 +48,8 @@ public abstract class SchedulingService {
 		return result;
 	}
 
-	public abstract int setUserScheduling(User user, DistrictService districtService, 
-										VaccinationSiteService vaccinationSiteService) throws NoSuchElementException, IndexOutOfBoundsException;
+	public abstract int setUserScheduling(User user, DistrictService districtService,
+			VaccinationSiteService vaccinationSiteService);
 
 
 }

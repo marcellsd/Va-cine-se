@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vacine_se.district.DistrictService;
-import br.com.vacine_se.scheduling.SchedulingService;
-import br.com.vacine_se.scheduling.SchedulingServiceCovid;
 import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
@@ -31,16 +29,13 @@ import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final SchedulingServiceCovid schedulingService;
     private final DistrictService districtService;
     private final VaccinationSiteService vaccinationSiteService;
     
     UserController(UserService userService,
-    				SchedulingServiceCovid schedulingService,
     				DistrictService districtService,
     				VaccinationSiteService vaccinationSiteService) {
         this.userService = userService;
-        this.schedulingService = schedulingService;
         this.districtService = districtService;
         this.vaccinationSiteService = vaccinationSiteService;
     }
@@ -75,9 +70,6 @@ public class UserController {
     @PostMapping("/users")
     ResponseEntity<User> newUser(@Valid @RequestBody User user) {
         try {
-//        	int schedId = userService.setUserScheduling(user, districtService, vaccinationSiteService, schedulingService);
-        	int schedId = schedulingService.setUserScheduling(user, districtService, vaccinationSiteService);
-            user.setSchedulingId(schedId);
         	return new ResponseEntity<>(userService.create(user), HttpStatus.OK);
         } catch(Exception e) {
         	return new ResponseEntity<>(HttpStatus.CONFLICT);

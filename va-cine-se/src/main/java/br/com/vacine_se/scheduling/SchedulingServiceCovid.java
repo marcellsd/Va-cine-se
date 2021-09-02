@@ -14,7 +14,9 @@ import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 @Service
 public class SchedulingServiceCovid extends SchedulingService {
 
-	public SchedulingServiceCovid(SchedulingRepository repository) {}
+	public SchedulingServiceCovid(SchedulingRepository repository) {
+		super(repository);
+	}
 
 	public int setUserScheduling(User user, DistrictService districtService, 
 										VaccinationSiteService vaccinationSiteService) throws NoSuchElementException, IndexOutOfBoundsException{
@@ -37,7 +39,7 @@ public class SchedulingServiceCovid extends SchedulingService {
 					}
 				}
 				Scheduling scheduling = new Scheduling(LocalDate.now().plusDays(30), nearestVacSite.getId());
-				scheduling = this.create(scheduling);
+				scheduling = create(scheduling);
 				return scheduling.getId();
 				
 			}  catch(NoSuchElementException e) {
