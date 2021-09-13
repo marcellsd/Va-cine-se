@@ -133,7 +133,7 @@ public class VaccinationSiteService {
 	}
 	
 	public void callDistribute() throws FileNotFoundException, IOException {
-		this.dataAquired = this.dataAdapter.readFile(this.dataInitializer.getDataPath());
+		this.dataAquired = this.dataAdapter.readFile();
 		this.distributionStrategy.distribute(dataAquired,this.repository);
 	}
 

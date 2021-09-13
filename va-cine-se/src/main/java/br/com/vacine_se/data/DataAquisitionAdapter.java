@@ -6,6 +6,6 @@ import java.io.IOException;
 public interface DataAquisitionAdapter{
 	//public Data data = new Data();
 	
-	public Data readFile(String file) throws IOException, FileNotFoundException;
+	public Data readFile() throws IOException, FileNotFoundException;
 
 }
