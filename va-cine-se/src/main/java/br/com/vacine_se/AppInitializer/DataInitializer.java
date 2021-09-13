@@ -15,7 +15,7 @@ public class DataInitializer {
 	}
 	
 	public DataInitializer() {
-		this.dataPath = "/Users/marcellsd/Documents/Va-cine-se/va-cine-se/src/main/java/br/com/vacine_se/data/data.csv";
+		this.dataPath = "C:\\UFRN\\PDS\\Va-cine-se\\va-cine-se\\src\\main\\java\\br\\com\\vacine_se\\data\\data.csv";
 		this.distributeStrategy = new StrategyEqual();
 		this.dataAquisitionAdapter = new DataAquisitionCSV();
 	}
