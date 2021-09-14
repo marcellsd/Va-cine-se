@@ -10,12 +10,25 @@ public class District {
 	private int id;
 	private final String name;
 	private Coordinate<Integer, Integer> coordinate;
+	private int population;
 	
 	public District(String name, Integer coordX, Integer coordY){
 		this.name = name;
 		this.coordinate = new Coordinate<Integer, Integer>(coordX,coordY);
 	}
-    @Id
+	public District(String name, Integer coordX, Integer coordY, int population){
+		this.name = name;
+		this.coordinate = new Coordinate<Integer, Integer>(coordX,coordY);
+		this.population = population;
+	}
+
+    public int getPopulation() {
+		return population;
+	}
+	public void setPopulation(int population) {
+		this.population = population;
+	}
+	@Id
 	public int getId() {
 		return this.id;
 	}

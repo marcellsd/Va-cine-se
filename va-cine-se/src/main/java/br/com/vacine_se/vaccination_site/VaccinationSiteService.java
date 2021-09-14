@@ -13,6 +13,7 @@ import br.com.vacine_se.scheduling.SchedulingService;
 import br.com.vacine_se.AppInitializer.DataInitializer;
 import br.com.vacine_se.data.Data;
 import br.com.vacine_se.data.DataAquisitionAdapter;
+import br.com.vacine_se.district.DistrictService;
 import br.com.vacine_se.scheduling.Scheduling;
 import br.com.vacine_se.user.User;
 import br.com.vacine_se.user.UserService;
@@ -25,6 +26,8 @@ public class VaccinationSiteService {
 	private VaccinationSiteRepository repository;
 
 	private SchedulingService schedulingService;
+
+	private DistrictService districtService;
 	
 	private DataInitializer dataInitializer;
 	
@@ -59,13 +62,14 @@ public class VaccinationSiteService {
 				);
 	}
 	
-	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingService ss) throws FileNotFoundException, IOException {
+	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingService ss, DistrictService ds) throws FileNotFoundException, IOException {
 		this.repository = repository;
 		this.schedulingService = ss;
+		this.districtService = ds;
 		for (VaccinationSite vacin : getVaccinationSiteFromData()) {
 			this.repository.save(vacin);
 		}
-		this.dataInitializer = new DataInitializer();
+		this.dataInitializer = new DataInitializer(ds, this);
 		this.distributionStrategy = dataInitializer.getDistributeStrategy();
 		this.dataAdapter = dataInitializer.getDataAquisitionAdapter();
 		this.callDistribute();

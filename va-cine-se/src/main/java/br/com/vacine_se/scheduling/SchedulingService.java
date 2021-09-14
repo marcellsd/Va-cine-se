@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import br.com.vacine_se.district.DistrictService;
 import br.com.vacine_se.user.User;
+import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
 public abstract class SchedulingService {
@@ -51,5 +52,21 @@ public abstract class SchedulingService {
 	public abstract int setUserScheduling(User user, DistrictService districtService,
 			VaccinationSiteService vaccinationSiteService);
 
-
+	protected VaccinationSite getClosestVaccinationSite(User user, VaccinationSiteService vaccinationSiteService, DistrictService districtService) {
+		VaccinationSite nearestVacSite = null;
+		int distance = Integer.MAX_VALUE;
+		for (VaccinationSite vacSite : vaccinationSiteService.findAll()) {
+			int currentDistance = districtService.getDistance(districtService.find(user.getDistrictId()).orElseThrow(),
+														districtService.find(vacSite.getDistrictId()).orElseThrow());
+			
+			if (user.getDistrictId() == vacSite.getDistrictId()) {
+				nearestVacSite = vacSite;
+			}
+			if(currentDistance < distance) {
+				distance = currentDistance;
+				nearestVacSite = vacSite;
+			}
+		}
+		return nearestVacSite;
+	}
 }
