@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.scheduling.SchedulingServiceBCG;
 import br.com.vacine_se.AppInitializer.DataInitializer;
 import br.com.vacine_se.data.Data;
 import br.com.vacine_se.data.DataAquisitionAdapter;
@@ -24,7 +25,7 @@ public class VaccinationSiteService {
 
 	private VaccinationSiteRepository repository;
 
-	private SchedulingService schedulingService;
+	private SchedulingServiceBCG schedulingService;
 	
 	private DataInitializer dataInitializer;
 	
@@ -59,7 +60,7 @@ public class VaccinationSiteService {
 				);
 	}
 	
-	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingService ss) throws FileNotFoundException, IOException {
+	public VaccinationSiteService(VaccinationSiteRepository repository, SchedulingServiceBCG ss) throws FileNotFoundException, IOException {
 		this.repository = repository;
 		this.schedulingService = ss;
 		for (VaccinationSite vacin : getVaccinationSiteFromData()) {

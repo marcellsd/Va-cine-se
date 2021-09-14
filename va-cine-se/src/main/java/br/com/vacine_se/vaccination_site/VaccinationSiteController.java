@@ -20,15 +20,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vacine_se.scheduling.SchedulingService;
+import br.com.vacine_se.scheduling.SchedulingServiceBCG;
 import br.com.vacine_se.user.UserService;
 
 @RestController
 public class VaccinationSiteController {
     private final VaccinationSiteService vaccinationSiteService;
     private final UserService userService;
-    private final SchedulingService schedulingService;
+    private final SchedulingServiceBCG schedulingService;
     
-    VaccinationSiteController(VaccinationSiteService vaccinationSiteService, UserService userService, SchedulingService schedulingService) {
+    VaccinationSiteController(VaccinationSiteService vaccinationSiteService, UserService userService, SchedulingServiceBCG schedulingService) {
         this.vaccinationSiteService = vaccinationSiteService;
         this.userService = userService;
         this.schedulingService = schedulingService;

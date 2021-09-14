@@ -9,7 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.vacine_se.district.DistrictService;
-import br.com.vacine_se.scheduling.SchedulingServiceCovid;
+import br.com.vacine_se.scheduling.SchedulingServiceBCG;
 import br.com.vacine_se.vaccination_site.VaccinationSite;
 import br.com.vacine_se.vaccination_site.VaccinationSiteService;
 
@@ -19,10 +19,10 @@ public class UserService{
 	private UserRepository repository;
 	private DistrictService districtService;
 	private VaccinationSiteService vaccinationSiteService;
-	private SchedulingServiceCovid schedulingService;
+	private SchedulingServiceBCG schedulingService;
 
 
-	public UserService(UserRepository repository, DistrictService districtService, VaccinationSiteService vaccinationSiteService, SchedulingServiceCovid schedulingService) {
+	public UserService(UserRepository repository, DistrictService districtService, VaccinationSiteService vaccinationSiteService, SchedulingServiceBCG schedulingService) {
 		this.repository = repository;
 		this.districtService = districtService;
 		this.vaccinationSiteService = vaccinationSiteService;

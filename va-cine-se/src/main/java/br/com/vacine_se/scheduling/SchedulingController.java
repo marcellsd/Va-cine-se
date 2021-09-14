@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SchedulingController {
-    private final SchedulingServiceCovid service;
+    private final SchedulingServiceBCG service;
     
-    SchedulingController(SchedulingServiceCovid service) {
+    SchedulingController(SchedulingServiceBCG service) {
         this.service = service;
     }
 
